@@ -1,3 +1,15 @@
 garminconnect
 garmindb
 readchar
+
+# fastapi stuff
+"fastapi[standard]"
+sqlmodel # sql
+pyjwt # jwt bearer tokens
+"passlib[bcrypt]" # password hashing
+
+# useful stuff
+orjson
+
+# formatting stuff
+ruff
