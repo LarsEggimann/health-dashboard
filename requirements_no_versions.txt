@@ -3,10 +3,10 @@ garmindb
 readchar
 
 # fastapi stuff
-"fastapi[standard]"
+fastapi[standard]
 sqlmodel # sql
 pyjwt # jwt bearer tokens
-"passlib[bcrypt]" # password hashing
+passlib[bcrypt] # password hashing
 
 # useful stuff
 orjson
