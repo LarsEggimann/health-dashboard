@@ -1,0 +1,19 @@
+{
+  "name": "frontend-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate-client": "openapi-ts --input ./openapi.json --output ./src/client --client @hey-api/client-fetch"
+  },
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.66.3"
+  },
+  "dependencies": {
+    "@hey-api/client-fetch": "^0.10.0",
+    "biome": "^0.3.3",
+    "typescript": "^5.8.3"
+  }
+}
