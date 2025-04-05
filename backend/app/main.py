@@ -3,9 +3,9 @@ from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from core.config import settings
-from core.db import init_db
-from routers import auth, users, private
+from app.core.config import settings
+from app.core.db import init_db
+from app.routers import auth, users, private
 
 api_router = APIRouter()
 api_router.include_router(auth.router)

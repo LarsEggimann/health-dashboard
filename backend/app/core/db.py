@@ -1,6 +1,6 @@
 from sqlmodel import Session, SQLModel, create_engine
 
-from core.config import settings  # type: ignore
+from app.core.config import settings
 
 
 connect_args = {"check_same_thread": False}

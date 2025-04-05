@@ -2,8 +2,8 @@ from typing import Any
 
 from fastapi import APIRouter, Depends
 
-from deps import reusable_oauth2, CurrentActiveUser
-from models.user import UserPublic
+from app.deps import reusable_oauth2, CurrentActiveUser
+from app.models.user import UserPublic
 
 router = APIRouter(dependencies=[Depends(reusable_oauth2)], tags=["users"])
 

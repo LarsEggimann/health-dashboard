@@ -2,9 +2,9 @@ from typing import Any
 
 from fastapi import APIRouter
 
-from deps import SessionDep
-from core.security import get_password_hash
-from models.user import (
+from app.deps import SessionDep
+from app.core.security import get_password_hash
+from app.models.user import (
     User,
     UserPublic,
 )

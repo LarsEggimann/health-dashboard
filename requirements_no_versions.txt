@@ -4,7 +4,7 @@ readchar
 
 # fastapi stuff
 fastapi[standard]
-sqlmodel # sql
+sqlmodel # sql, also installs sqlalchemy and pydantic
 pyjwt # jwt bearer tokens
 passlib[bcrypt] # password hashing
 

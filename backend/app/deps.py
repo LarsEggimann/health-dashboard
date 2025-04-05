@@ -5,11 +5,11 @@ from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from sqlmodel import Session
 
-from core.config import settings
-from core.db import get_session
-from core.crud import get_user_by_username
-from models.token import TokenData
-from models.user import User
+from app.core.config import settings
+from app.core.db import get_session
+from app.core.crud import get_user_by_username
+from app.models.token import TokenData
+from app.models.user import User
 
 
 reusable_oauth2 = OAuth2PasswordBearer(

@@ -4,12 +4,11 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
-from deps import SessionDep  # pylint: disable=import-error
-from models.token import Token  # pylint: disable=import-error
-from models.user import User  # pylint: disable=import-error
-from core import crud  # pylint: disable=import-error
-from core.config import settings  # pylint: disable=import-error
-from core.security import create_access_token  # pylint: disable=import-error
+from app.deps import SessionDep
+from app.models.token import Token
+from app.core import crud
+from app.core.config import settings
+from app.core.security import create_access_token
 
 router = APIRouter(tags=["auth"])
 
@@ -21,7 +20,7 @@ async def login_access_token(
     """
     OAuth2 compatible token login, get an access token for requests
     """
-    user: User = crud.authenticate(
+    user = crud.authenticate(
         session=session, username=form_data.username, password=form_data.password
     )
     if not user:

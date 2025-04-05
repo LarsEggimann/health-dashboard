@@ -1,9 +1,7 @@
 import secrets
 from typing import Literal
-from pydantic_settings import BaseSettings
 
-
-class Settings(BaseSettings):
+class Settings():
     """Settings for the application."""
 
     # Application settings
@@ -26,4 +24,4 @@ class Settings(BaseSettings):
     ENVIRONMENT: Literal["local", "development", "production"] = "local"
 
 
-settings = Settings()  # type: ignore
+settings: Settings = Settings()  # type: ignore
