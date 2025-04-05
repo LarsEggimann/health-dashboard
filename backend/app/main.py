@@ -23,7 +23,7 @@ def custom_generate_unique_id(route: APIRoute) -> str:
 async def lifespan(app: FastAPI):
     # setup database
 
-    init_db()
+    # init_db()
 
     yield  # run the app
 
