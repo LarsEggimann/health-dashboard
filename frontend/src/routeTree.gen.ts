@@ -11,14 +11,34 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
+import { Route as ChakraUiExamplesImport } from './routes/chakra-ui-examples'
 import { Route as AboutImport } from './routes/about'
+import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChakraUiExamplesRoute = ChakraUiExamplesImport.update({
+  id: '/chakra-ui-examples',
+  path: '/chakra-ui-examples',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,11 +59,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/chakra-ui-examples': {
+      id: '/chakra-ui-examples'
+      path: '/chakra-ui-examples'
+      fullPath: '/chakra-ui-examples'
+      preLoaderRoute: typeof ChakraUiExamplesImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
   }
@@ -53,37 +94,58 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '': typeof LayoutRoute
   '/about': typeof AboutRoute
+  '/chakra-ui-examples': typeof ChakraUiExamplesRoute
+  '/login': typeof LoginRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '': typeof LayoutRoute
   '/about': typeof AboutRoute
+  '/chakra-ui-examples': typeof ChakraUiExamplesRoute
+  '/login': typeof LoginRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/_layout': typeof LayoutRoute
   '/about': typeof AboutRoute
+  '/chakra-ui-examples': typeof ChakraUiExamplesRoute
+  '/login': typeof LoginRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '' | '/about' | '/chakra-ui-examples' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '' | '/about' | '/chakra-ui-examples' | '/login'
+  id:
+    | '__root__'
+    | '/'
+    | '/_layout'
+    | '/about'
+    | '/chakra-ui-examples'
+    | '/login'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LayoutRoute: typeof LayoutRoute
   AboutRoute: typeof AboutRoute
+  ChakraUiExamplesRoute: typeof ChakraUiExamplesRoute
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LayoutRoute: LayoutRoute,
   AboutRoute: AboutRoute,
+  ChakraUiExamplesRoute: ChakraUiExamplesRoute,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +159,26 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/_layout",
+        "/about",
+        "/chakra-ui-examples",
+        "/login"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/_layout": {
+      "filePath": "_layout.tsx"
+    },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/chakra-ui-examples": {
+      "filePath": "chakra-ui-examples.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
     }
   }
 }
