@@ -1,5 +1,6 @@
 import secrets
 from typing import Literal
+import os
 
 class Settings():
     """Settings for the application."""
@@ -9,7 +10,8 @@ class Settings():
     API_V1_STR: str = "/api/v1"
 
     # Database settings
-    SQLITE_FILENAME: str = "app.db"
+    # get path relative to the current file
+    SQLITE_FILENAME: str = os.path.join(os.path.dirname(__file__), "app.db")
     SQLITE_URL: str = f"sqlite:///{SQLITE_FILENAME}"
 
     # Security settings

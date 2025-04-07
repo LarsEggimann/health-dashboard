@@ -1,20 +1,35 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
-import { ThemeProvider } from "next-themes"
-
-// Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { DefaultCatchBoundary } from './components/common/DefaultCatchBoundary'
+import NotFound from './components/common/NotFound'
+import { CustomProvider } from './components/ui/provider'
 
-// Create a new router instance
-const router = createRouter({ routeTree })
+import { client } from './client/client.gen';
 
-// Register the router instance for type safety
+client.setConfig({
+  baseUrl: import.meta.env.VITE_API_URL,
+  auth: async () => {
+    return localStorage.getItem("access_token") ?? ""
+  }
+});
+
+export function createOurRouter() {
+  const router = createRouter({
+    routeTree,
+    defaultPreload: 'intent',
+    defaultErrorComponent: DefaultCatchBoundary,
+    defaultNotFoundComponent: () => <NotFound />,
+    scrollRestoration: true,
+  })
+  return router
+}
+
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: ReturnType<typeof createOurRouter>
   }
 }
 
@@ -33,21 +48,17 @@ const queryClient = new QueryClient({
   }),
 })
 
-
 // Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <ChakraProvider value={defaultSystem}>
-        <ThemeProvider>
-          <QueryClientProvider client={queryClient}>
-
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <CustomProvider>
+          <RouterProvider router={createOurRouter()} />
+        </CustomProvider>
+      </QueryClientProvider>
     </StrictMode>,
   )
 }

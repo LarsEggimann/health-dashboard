@@ -18,67 +18,76 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: Record<string, unknown>;
 };
 
-/**
- * Login Access Token
- * OAuth2 compatible token login, get an access token for requests
- */
-export const authLoginAccessToken = <ThrowOnError extends boolean = false>(options: Options<AuthLoginAccessTokenData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<AuthLoginAccessTokenResponse, AuthLoginAccessTokenError, ThrowOnError>({
-        ...urlSearchParamsBodySerializer,
-        url: '/api/v1/login/access-token',
-        ...options,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Get Own User
- * get own user
- */
-export const usersGetOwnUser = <ThrowOnError extends boolean = false>(options?: Options<UsersGetOwnUserData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).get<UsersGetOwnUserResponse, unknown, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+export class AuthService {
+    /**
+     * Login Access Token
+     * OAuth2 compatible token login, get an access token for requests
+     */
+    public static authLoginAccessToken<ThrowOnError extends boolean = false>(options: Options<AuthLoginAccessTokenData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<AuthLoginAccessTokenResponse, AuthLoginAccessTokenError, ThrowOnError>({
+            ...urlSearchParamsBodySerializer,
+            url: '/api/v1/login/access-token',
+            ...options,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/user/me',
-        ...options
-    });
-};
+        });
+    }
+    
+}
 
-/**
- * Test Auth
- * test auth
- */
-export const usersTestAuth = <ThrowOnError extends boolean = false>(options?: Options<UsersTestAuthData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+export class UsersService {
+    /**
+     * Get Own User
+     * get own user
+     */
+    public static usersGetOwnUser<ThrowOnError extends boolean = false>(options?: Options<UsersGetOwnUserData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).get<UsersGetOwnUserResponse, unknown, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/user/me',
+            ...options
+        });
+    }
+    
+    /**
+     * Test Auth
+     * test auth
+     */
+    public static usersTestAuth<ThrowOnError extends boolean = false>(options?: Options<UsersTestAuthData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/test',
+            ...options
+        });
+    }
+    
+}
+
+export class PrivateService {
+    /**
+     * Create User
+     * Create a new user.
+     */
+    public static privateCreateUser<ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<PrivateCreateUserResponse, PrivateCreateUserError, ThrowOnError>({
+            url: '/api/v1/private/users/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/test',
-        ...options
-    });
-};
-
-/**
- * Create User
- * Create a new user.
- */
-export const privateCreateUser = <ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<PrivateCreateUserResponse, PrivateCreateUserError, ThrowOnError>({
-        url: '/api/v1/private/users/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
+        });
+    }
+    
+}
