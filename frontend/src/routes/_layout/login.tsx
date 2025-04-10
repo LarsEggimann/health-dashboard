@@ -6,14 +6,14 @@ import {
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FiLock, FiUser } from "react-icons/fi"
 
-import type { BodyAuthLoginAccessToken as AccessToken } from "../client"
-import { Button } from "../components/ui/button"
-import { Field } from "../components/ui/field"
-import { InputGroup } from "../components/ui/input-group"
-import { PasswordInput } from "../components/ui/password-input"
-import useAuth, { isLoggedIn } from "../hooks/useAuth"
+import type { BodyAuthLoginAccessToken as AccessToken } from "../../client"
+import { Button } from "../../components/ui/button"
+import { Field } from "../../components/ui/field"
+import { InputGroup } from "../../components/ui/input-group"
+import { PasswordInput } from "../../components/ui/password-input"
+import useAuth, { isLoggedIn } from "../../hooks/useAuth"
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_layout/login")({
   component: Login,
   beforeLoad: async () => {
     if (isLoggedIn()) {

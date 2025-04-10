@@ -1,0 +1,30 @@
+import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/_layout')({
+  component: RouteComponent,
+})
+
+function RouteComponent() {
+  return (
+    <div>
+      <div className="p-2 flex gap-2">
+        <Link to="/" className="[&.active]:font-bold">
+          Home
+        </Link>{'  '}
+        <Link to="/about" className="[&.active]:font-bold">
+          About
+        </Link>{'  '}
+        <Link to="/login" className="[&.active]:font-bold">
+          Login
+        </Link>{'  '}
+        <Link to="/user" className="[&.active]:font-bold">
+          Test Querries
+        </Link>{'  '}
+      </div>
+      <hr />
+
+      <Outlet />
+      
+    </div>
+  )
+}

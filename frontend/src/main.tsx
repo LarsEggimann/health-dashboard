@@ -5,7 +5,9 @@ import { routeTree } from './routeTree.gen'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { DefaultCatchBoundary } from './components/common/DefaultCatchBoundary'
 import NotFound from './components/common/NotFound'
-import { CustomProvider } from './components/ui/provider'
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
+import { ColorModeProvider } from "./components/ui/color-mode"
+import { Toaster } from "./components/ui/toaster"
 
 import { client } from './client/client.gen';
 
@@ -33,31 +35,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const handleApiError = (error: Error) => {
-  if (error instanceof ApiError && [401, 403].includes(error.status)) {
-    localStorage.removeItem("access_token")
-    window.location.href = "/login"
-  }
-}
-const queryClient = new QueryClient({
-  queryCache: new QueryCache({
-    onError: handleApiError,
-  }),
-  mutationCache: new MutationCache({
-    onError: handleApiError,
-  }),
-})
+const queryClient = new QueryClient()
 
-// Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <CustomProvider>
-          <RouterProvider router={createOurRouter()} />
-        </CustomProvider>
+
+        <ChakraProvider value={defaultSystem}>
+          <ColorModeProvider enableSystem={true}>
+
+            <RouterProvider router={createOurRouter()} />
+
+          </ColorModeProvider>
+          <Toaster />
+        </ChakraProvider>
+
       </QueryClientProvider>
     </StrictMode>,
   )

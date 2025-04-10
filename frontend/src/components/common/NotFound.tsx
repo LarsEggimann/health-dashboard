@@ -22,7 +22,7 @@ const NotFound = () => {
             404
           </Text>
           <Text fontSize="2xl" fontWeight="bold" mb={2}>
-            Oops!
+            Gawt Dayum!
           </Text>
         </Flex>
       </Flex>
