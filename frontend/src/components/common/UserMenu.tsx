@@ -22,18 +22,20 @@ const UserMenu = () => {
           </MenuTrigger>
 
           <MenuContent>
-            <Link to='/user-info'>
+            {isAuthenticated && (
+              <Link to='/user-info'>
               <MenuItem
                 closeOnSelect
                 value='user-info'
                 gap={2}
                 py={2}
                 style={{ cursor: 'pointer' }}
-              >
+                >
                 <FiUser fontSize='18px' />
                 <Box flex='1'>My Profile</Box>
               </MenuItem>
             </Link>
+              )}
 
             {isAuthenticated ? (
               <MenuItem
