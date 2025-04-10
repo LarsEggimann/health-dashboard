@@ -3,7 +3,7 @@ import type {
   GroupProps,
   InputProps,
   StackProps,
-} from "@chakra-ui/react"
+} from '@chakra-ui/react'
 import {
   Box,
   HStack,
@@ -12,11 +12,11 @@ import {
   Stack,
   mergeRefs,
   useControllableState,
-} from "@chakra-ui/react"
-import { forwardRef, useRef } from "react"
-import { FiEye, FiEyeOff } from "react-icons/fi"
-import { Field } from "./field"
-import { InputGroup } from "./input-group"
+} from '@chakra-ui/react'
+import { forwardRef, useRef } from 'react'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
+import { Field } from './field'
+import { InputGroup } from './input-group'
 
 export interface PasswordVisibilityProps {
   defaultVisible?: boolean
@@ -60,10 +60,10 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       <Field
         invalid={!!errors[type]}
         errorText={errors[type]?.message}
-        alignSelf="start"
+        alignSelf='start'
       >
         <InputGroup
-          width="100%"
+          width='100%'
           startElement={startElement}
           endElement={
             <VisibilityTrigger
@@ -83,7 +83,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           <Input
             {...rest}
             ref={mergeRefs(ref, inputRef)}
-            type={visible ? "text" : "password"}
+            type={visible ? 'text' : 'password'}
           />
         </InputGroup>
       </Field>
@@ -97,13 +97,13 @@ const VisibilityTrigger = forwardRef<HTMLButtonElement, ButtonProps>(
       <IconButton
         tabIndex={-1}
         ref={ref}
-        me="-2"
-        aspectRatio="square"
-        size="sm"
-        variant="ghost"
-        height="calc(100% - {spacing.2})"
-        aria-label="Toggle password visibility"
-        color="inherit"
+        me='-2'
+        aspectRatio='square'
+        size='sm'
+        variant='ghost'
+        height='calc(100% - {spacing.2})'
+        aria-label='Toggle password visibility'
+        color='inherit'
         {...props}
       />
     )
@@ -125,25 +125,25 @@ export const PasswordStrengthMeter = forwardRef<
   const { label, colorPalette } = getColorPalette(percent)
 
   return (
-    <Stack align="flex-end" gap="1" ref={ref} {...rest}>
-      <HStack width="full" ref={ref} {...rest}>
+    <Stack align='flex-end' gap='1' ref={ref} {...rest}>
+      <HStack width='full' ref={ref} {...rest}>
         {Array.from({ length: max }).map((_, index) => (
           <Box
             key={index}
-            height="1"
-            flex="1"
-            rounded="sm"
-            data-selected={index < value ? "" : undefined}
-            layerStyle="fill.subtle"
-            colorPalette="gray"
+            height='1'
+            flex='1'
+            rounded='sm'
+            data-selected={index < value ? '' : undefined}
+            layerStyle='fill.subtle'
+            colorPalette='gray'
             _selected={{
               colorPalette,
-              layerStyle: "fill.solid",
+              layerStyle: 'fill.solid',
             }}
           />
         ))}
       </HStack>
-      {label && <HStack textStyle="xs">{label}</HStack>}
+      {label && <HStack textStyle='xs'>{label}</HStack>}
     </Stack>
   )
 })
@@ -151,10 +151,10 @@ export const PasswordStrengthMeter = forwardRef<
 function getColorPalette(percent: number) {
   switch (true) {
     case percent < 33:
-      return { label: "Low", colorPalette: "red" }
+      return { label: 'Low', colorPalette: 'red' }
     case percent < 66:
-      return { label: "Medium", colorPalette: "orange" }
+      return { label: 'Medium', colorPalette: 'orange' }
     default:
-      return { label: "High", colorPalette: "green" }
+      return { label: 'High', colorPalette: 'green' }
   }
 }

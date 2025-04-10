@@ -10,11 +10,11 @@ export const Route = createFileRoute('/_layout')({
 function RouteComponent() {
   return (
     <>
-      <Flex flexDirection="column" height="100vh">
+      <Flex flexDirection='column' height='100vh'>
         <Box>
           <Navbar />
         </Box>
-        <Flex flex="1" overflow="hidden">
+        <Flex flex='1' overflow='hidden'>
           <Sidebar />
 
           <Outlet />

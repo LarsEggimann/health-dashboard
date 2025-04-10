@@ -1,6 +1,6 @@
-import { AbsoluteCenter, Menu as ChakraMenu, Portal } from "@chakra-ui/react"
-import * as React from "react"
-import { LuCheck, LuChevronRight } from "react-icons/lu"
+import { AbsoluteCenter, Menu as ChakraMenu, Portal } from '@chakra-ui/react'
+import * as React from 'react'
+import { LuCheck, LuChevronRight } from 'react-icons/lu'
 
 interface MenuContentProps extends ChakraMenu.ContentProps {
   portalled?: boolean
@@ -36,8 +36,8 @@ export const MenuCheckboxItem = React.forwardRef<
   ChakraMenu.CheckboxItemProps
 >(function MenuCheckboxItem(props, ref) {
   return (
-    <ChakraMenu.CheckboxItem ps="8" ref={ref} {...props}>
-      <AbsoluteCenter axis="horizontal" insetStart="4" asChild>
+    <ChakraMenu.CheckboxItem ps='8' ref={ref} {...props}>
+      <AbsoluteCenter axis='horizontal' insetStart='4' asChild>
         <ChakraMenu.ItemIndicator>
           <LuCheck />
         </ChakraMenu.ItemIndicator>
@@ -53,8 +53,8 @@ export const MenuRadioItem = React.forwardRef<
 >(function MenuRadioItem(props, ref) {
   const { children, ...rest } = props
   return (
-    <ChakraMenu.RadioItem ps="8" ref={ref} {...rest}>
-      <AbsoluteCenter axis="horizontal" insetStart="4" asChild>
+    <ChakraMenu.RadioItem ps='8' ref={ref} {...rest}>
+      <AbsoluteCenter axis='horizontal' insetStart='4' asChild>
         <ChakraMenu.ItemIndicator>
           <LuCheck />
         </ChakraMenu.ItemIndicator>
@@ -72,7 +72,7 @@ export const MenuItemGroup = React.forwardRef<
   return (
     <ChakraMenu.ItemGroup ref={ref} {...rest}>
       {title && (
-        <ChakraMenu.ItemGroupLabel userSelect="none">
+        <ChakraMenu.ItemGroupLabel userSelect='none'>
           {title}
         </ChakraMenu.ItemGroupLabel>
       )}

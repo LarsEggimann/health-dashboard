@@ -1,1 +1,245 @@
-{"openapi": "3.1.0", "info": {"title": "Health Dashboard API", "version": "0.1.0"}, "paths": {"/api/v1/login/access-token": {"post": {"tags": ["auth"], "summary": "Login Access Token", "description": "OAuth2 compatible token login, get an access token for requests", "operationId": "auth-login_access_token", "requestBody": {"content": {"application/x-www-form-urlencoded": {"schema": {"$ref": "#/components/schemas/Body_auth-login_access_token"}}}, "required": true}, "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Token"}}}}, "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}}}}}, "/api/v1/user/me": {"get": {"tags": ["users"], "summary": "Get Own User", "description": "get own user", "operationId": "users-get_own_user", "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UserPublic"}}}}}, "security": [{"OAuth2PasswordBearer": []}]}}, "/api/v1/test": {"get": {"tags": ["users"], "summary": "Test Auth", "description": "test auth", "operationId": "users-test_auth", "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {}}}}}, "security": [{"OAuth2PasswordBearer": []}]}}, "/api/v1/private/users/": {"post": {"tags": ["private"], "summary": "Create User", "description": "Create a new user.", "operationId": "private-create_user", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/PrivateUserCreate"}}}, "required": true}, "responses": {"200": {"description": "Successful Response", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UserPublic"}}}}, "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}}}}}}, "components": {"schemas": {"Body_auth-login_access_token": {"properties": {"grant_type": {"anyOf": [{"type": "string", "pattern": "^password$"}, {"type": "null"}], "title": "Grant Type"}, "username": {"type": "string", "title": "Username"}, "password": {"type": "string", "title": "Password"}, "scope": {"type": "string", "title": "Scope", "default": ""}, "client_id": {"anyOf": [{"type": "string"}, {"type": "null"}], "title": "Client Id"}, "client_secret": {"anyOf": [{"type": "string"}, {"type": "null"}], "title": "Client Secret"}}, "type": "object", "required": ["username", "password"], "title": "Body_auth-login_access_token"}, "HTTPValidationError": {"properties": {"detail": {"items": {"$ref": "#/components/schemas/ValidationError"}, "type": "array", "title": "Detail"}}, "type": "object", "title": "HTTPValidationError"}, "PrivateUserCreate": {"properties": {"username": {"type": "string", "title": "Username"}, "email": {"anyOf": [{"type": "string"}, {"type": "null"}], "title": "Email"}, "full_name": {"anyOf": [{"type": "string", "maxLength": 255}, {"type": "null"}], "title": "Full Name"}, "disabled": {"anyOf": [{"type": "boolean"}, {"type": "null"}], "title": "Disabled", "default": false}, "is_superuser": {"anyOf": [{"type": "boolean"}, {"type": "null"}], "title": "Is Superuser", "default": false}, "password": {"type": "string", "title": "Password"}}, "type": "object", "required": ["username", "password"], "title": "PrivateUserCreate", "description": "UserCreate model for creating a user."}, "Token": {"properties": {"access_token": {"type": "string", "title": "Access Token"}, "token_type": {"type": "string", "title": "Token Type", "default": "bearer"}}, "type": "object", "required": ["access_token"], "title": "Token"}, "UserPublic": {"properties": {"username": {"type": "string", "title": "Username"}, "email": {"anyOf": [{"type": "string"}, {"type": "null"}], "title": "Email"}, "full_name": {"anyOf": [{"type": "string", "maxLength": 255}, {"type": "null"}], "title": "Full Name"}, "disabled": {"anyOf": [{"type": "boolean"}, {"type": "null"}], "title": "Disabled", "default": false}, "is_superuser": {"anyOf": [{"type": "boolean"}, {"type": "null"}], "title": "Is Superuser", "default": false}}, "type": "object", "required": ["username"], "title": "UserPublic"}, "ValidationError": {"properties": {"loc": {"items": {"anyOf": [{"type": "string"}, {"type": "integer"}]}, "type": "array", "title": "Location"}, "msg": {"type": "string", "title": "Message"}, "type": {"type": "string", "title": "Error Type"}}, "type": "object", "required": ["loc", "msg", "type"], "title": "ValidationError"}}, "securitySchemes": {"OAuth2PasswordBearer": {"type": "oauth2", "flows": {"password": {"scopes": {}, "tokenUrl": "/api/v1/login/access-token"}}}}}}
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Health Dashboard API", "version": "0.1.0" },
+  "paths": {
+    "/api/v1/login/access-token": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login Access Token",
+        "description": "OAuth2 compatible token login, get an access token for requests",
+        "operationId": "auth-login_access_token",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_auth-login_access_token"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Token" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/me": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get Own User",
+        "description": "get own user",
+        "operationId": "users-get_own_user",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserPublic" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/api/v1/test": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Test Auth",
+        "description": "test auth",
+        "operationId": "users-test_auth",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/api/v1/private/users/": {
+      "post": {
+        "tags": ["private"],
+        "summary": "Create User",
+        "description": "Create a new user.",
+        "operationId": "private-create_user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/PrivateUserCreate" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserPublic" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_auth-login_access_token": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              { "type": "string", "pattern": "^password$" },
+              { "type": "null" }
+            ],
+            "title": "Grant Type"
+          },
+          "username": { "type": "string", "title": "Username" },
+          "password": { "type": "string", "title": "Password" },
+          "scope": { "type": "string", "title": "Scope", "default": "" },
+          "client_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": ["username", "password"],
+        "title": "Body_auth-login_access_token"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PrivateUserCreate": {
+        "properties": {
+          "username": { "type": "string", "title": "Username" },
+          "email": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Email"
+          },
+          "full_name": {
+            "anyOf": [
+              { "type": "string", "maxLength": 255 },
+              { "type": "null" }
+            ],
+            "title": "Full Name"
+          },
+          "disabled": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Disabled",
+            "default": false
+          },
+          "is_superuser": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Is Superuser",
+            "default": false
+          },
+          "password": { "type": "string", "title": "Password" }
+        },
+        "type": "object",
+        "required": ["username", "password"],
+        "title": "PrivateUserCreate",
+        "description": "UserCreate model for creating a user."
+      },
+      "Token": {
+        "properties": {
+          "access_token": { "type": "string", "title": "Access Token" },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          }
+        },
+        "type": "object",
+        "required": ["access_token"],
+        "title": "Token"
+      },
+      "UserPublic": {
+        "properties": {
+          "username": { "type": "string", "title": "Username" },
+          "email": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Email"
+          },
+          "full_name": {
+            "anyOf": [
+              { "type": "string", "maxLength": 255 },
+              { "type": "null" }
+            ],
+            "title": "Full Name"
+          },
+          "disabled": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Disabled",
+            "default": false
+          },
+          "is_superuser": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Is Superuser",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": ["username"],
+        "title": "UserPublic"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": { "scopes": {}, "tokenUrl": "/api/v1/login/access-token" }
+        }
+      }
+    }
+  }
+}

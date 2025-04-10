@@ -5,7 +5,5 @@ export const Route = createFileRoute('/_layout/')({
 })
 
 export default function Index() {
-  return (
-    <div>Home Page!</div>
-  )
+  return <div>Home Page!</div>
 }

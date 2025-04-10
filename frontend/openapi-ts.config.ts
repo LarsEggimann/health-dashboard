@@ -1,4 +1,4 @@
-import { defaultPlugins } from '@hey-api/openapi-ts';
+import { defaultPlugins } from '@hey-api/openapi-ts'
 
 export default {
   input: './openapi.json',
@@ -7,8 +7,8 @@ export default {
     ...defaultPlugins,
     '@hey-api/client-fetch',
     {
-      asClass: true, 
+      asClass: true,
       name: '@hey-api/sdk',
     },
   ],
-};
+}
