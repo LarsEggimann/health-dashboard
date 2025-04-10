@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router"
 
 import Logo from "../../assets/images/favicon.png"
 import UserMenu from "./UserMenu"
-import { useSidebar } from "./sidebar/SidebarContext"
+import { useSidebar } from "../../providers/SidebarContext"
 
 function Navbar() {
 

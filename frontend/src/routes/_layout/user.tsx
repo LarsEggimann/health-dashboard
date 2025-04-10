@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { UsersService } from '../../client'
+import { client } from '../../client/client.gen';
 
 export const Route = createFileRoute('/_layout/user')({
   component: RouteComponent,
@@ -10,17 +11,19 @@ export const Route = createFileRoute('/_layout/user')({
 function RouteComponent() {
   const navigate = useNavigate()
 
+  
+
   const query = useQuery({
     queryKey: ['test'],
     queryFn: async () => {
         await new Promise((resolve) => setTimeout(resolve, 1000))
           const response = await UsersService.usersGetOwnUser()
           console.log(response.response)
-          if ([401, 403].includes(response.response.status)) {
-            console.log('Unauthorized')
-            navigate({ to: '/login' })
+          // if ([401, 403].includes(response.response.status)) {
+          //   console.log('Unauthorized')
+          //   navigate({ to: '/login' })
             
-          }
+          // }
           return response
       }
   })
@@ -33,6 +36,8 @@ function RouteComponent() {
       <p>{query.data ? JSON.stringify(query.data) : 'No data'}</p>
       {/* <p>{JSON.stringify(query)}</p> */}
       <p>Query Status: {query.status}</p>
+      <br />
+      <p>Client Auth: {JSON.stringify(client.getConfig())}</p>
 
     </div>
   );

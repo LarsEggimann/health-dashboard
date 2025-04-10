@@ -10,7 +10,7 @@ import { ColorModeProvider } from "./components/ui/color-mode"
 import { Toaster } from "./components/ui/toaster"
 
 import { client } from './client/client.gen';
-import { SidebarProvider } from './components/common/sidebar/SidebarContext'
+import { SidebarProvider } from './providers/SidebarContext'
 
 client.setConfig({
   baseUrl: import.meta.env.VITE_API_URL,

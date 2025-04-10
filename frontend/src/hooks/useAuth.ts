@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
+import { client } from "../client/client.gen"
 
 import {
   AuthService,
@@ -44,7 +45,11 @@ const useAuth = () => {
       throw new Error(errorMessage)
     } else {
       toast.showSuccessToast("Login successful")
-      localStorage.setItem("access_token", response.data?.access_token ?? "")
+      const accessToken = response.data?.access_token ?? ""
+      localStorage.setItem("access_token", accessToken)
+      client.setConfig({
+        auth: accessToken,
+      })
     }
     return response.data
   }

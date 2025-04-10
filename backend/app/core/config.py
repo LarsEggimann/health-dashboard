@@ -17,7 +17,7 @@ class Settings():
     # Security settings
     SECRET_KEY: str = secrets.token_urlsafe(32)
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 1 // (60 * 24 * 6)  # 1 day
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 1  # 1 day
 
     # CORS settings
     CORS_ORIGINS: list[str] | str | None = None
