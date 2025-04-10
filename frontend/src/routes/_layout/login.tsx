@@ -61,6 +61,7 @@ function Login() {
         justifyContent="center"
         gap={4}
         centerContent
+        verticalAlign={"center"}
       >
         <Field
           invalid={!!errors.username}

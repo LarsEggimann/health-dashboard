@@ -22,12 +22,17 @@ function Navbar() {
       top={0}
       p={2}
     >
-      <sidbarContext.SideBarButton />
+
+      <Flex align="center">
+        <Link to="/">
+          <Image src={Logo} alt="Logo" maxH="50px" p={1} />
+        </Link>
+      <Flex align="center">
+        <sidbarContext.SideBarButton />
+      </Flex>
+      </Flex>
 
 
-      <Link to="/">
-        <Image src={Logo} alt="Logo" maxH="50px"  p={1}/>
-      </Link>
       <Flex gap={2} alignItems="center">
         <UserMenu />
       </Flex>

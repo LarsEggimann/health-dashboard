@@ -10,6 +10,7 @@ import { ColorModeProvider } from "./components/ui/color-mode"
 import { Toaster } from "./components/ui/toaster"
 
 import { client } from './client/client.gen';
+import { SidebarProvider } from './components/common/sidebar/SidebarContext'
 
 client.setConfig({
   baseUrl: import.meta.env.VITE_API_URL,
@@ -46,9 +47,12 @@ if (!rootElement.innerHTML) {
 
         <ChakraProvider value={defaultSystem}>
           <ColorModeProvider enableSystem={true}>
+              <SidebarProvider>
+            
 
             <RouterProvider router={createOurRouter()} />
 
+            </SidebarProvider>
           </ColorModeProvider>
           <Toaster />
         </ChakraProvider>

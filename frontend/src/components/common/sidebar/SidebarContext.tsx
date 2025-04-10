@@ -22,11 +22,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
     const SideBarButton = () => {
         return (
             <IconButton
-                variant="ghost"
-                color="inherit"
-                aria-label="Open Menu"
-                position="absolute"
-                zIndex="100"
+                variant="subtle"
                 m={4}
                 onClick={toggle}
             >
