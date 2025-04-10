@@ -1,13 +1,11 @@
-import { Flex, IconButton, Image, useBreakpointValue } from "@chakra-ui/react"
+import { Flex, Image } from "@chakra-ui/react"
 import { Link } from "@tanstack/react-router"
 
 import Logo from "../../assets/images/favicon.png"
 import UserMenu from "./UserMenu"
 import { useSidebar } from "./sidebar/SidebarContext"
-import { FaBars } from "react-icons/fa"
 
 function Navbar() {
-  const display = useBreakpointValue({ base: "none", md: "flex" })
 
   const sidbarContext = useSidebar()
 
@@ -31,8 +29,6 @@ function Navbar() {
         <sidbarContext.SideBarButton />
       </Flex>
       </Flex>
-
-
       <Flex gap={2} alignItems="center">
         <UserMenu />
       </Flex>

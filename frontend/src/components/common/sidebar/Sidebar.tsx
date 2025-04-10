@@ -15,12 +15,11 @@ const Sidebar = () => {
   return (
     <>
       <Box
-
-
         width="xs"
         bg="bg.subtle"
-        transform={sidebarContext.isOpen ? "translateX(0)" : "translateX(-100%)"}
-        transition="transform 0.1s ease-in-out"
+        display={sidebarContext.isOpen ? "block" : "none"}
+        // transform={sidebarContext.isOpen ? "translateX(0)" : "translateX(-100%)"}
+        // transition="transform 0.1s ease-in-out"
       >
         <Flex flexDir="column" justify="space-between" h="calc(100% - 60px)">
           <Box>
