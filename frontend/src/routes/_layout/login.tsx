@@ -1,8 +1,9 @@
 import { Container, Input } from "@chakra-ui/react"
 import {
   createFileRoute,
-  redirect,
+  useNavigate
 } from "@tanstack/react-router"
+import { useEffect } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FiLock, FiUser } from "react-icons/fi"
 
@@ -11,21 +12,24 @@ import { Button } from "../../components/ui/button"
 import { Field } from "../../components/ui/field"
 import { InputGroup } from "../../components/ui/input-group"
 import { PasswordInput } from "../../components/ui/password-input"
-import useAuth, { isLoggedIn } from "../../hooks/useAuth"
+import { useAuth } from "../../providers/AuthContext";
+
 
 export const Route = createFileRoute("/_layout/login")({
-  component: Login,
-  beforeLoad: async () => {
-    if (isLoggedIn()) {
-      throw redirect({
-        to: "/",
-      })
-    }
-  },
+  component: Login
 })
 
 function Login() {
-  const { loginMutation, error, resetError } = useAuth()
+  const auth = useAuth()
+  const navigate = useNavigate()
+
+  // use effect to redirect if user is already authenticated
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate({ to: "/" })
+    }
+  })
+
   const {
     register,
     handleSubmit,
@@ -42,12 +46,12 @@ function Login() {
   const onSubmit: SubmitHandler<AccessToken> = async (data) => {
     if (isSubmitting) return
 
-    resetError()
+    auth.resetError()
 
     try {
-      await loginMutation.mutateAsync(data)
+      await auth.login(data, () => navigate({ to: "/" }))
     } catch {
-      // error is handled by useAuth hook
+      // error is handled by auth provider
     }
   }
 
@@ -64,8 +68,8 @@ function Login() {
         verticalAlign={"center"}
       >
         <Field
-          invalid={!!errors.username}
-          errorText={errors.username?.message ?? !!error}
+          invalid={!!errors.username || !!auth.error}
+          errorText={errors.username?.message || auth.error}
         >
           <InputGroup w="100%" startElement={<FiUser />}>
             <Input
@@ -87,7 +91,7 @@ function Login() {
           placeholder="Password"
           errors={errors}
         />
-        <Button variant="solid" type="submit" loading={isSubmitting} size="md">
+        <Button variant="solid" type="submit" loading={isSubmitting || auth.isLoading} size="md">
           Log In
         </Button>
       </Container>

@@ -1,24 +1,27 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react"
-import { Link } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
 import { FaUserAstronaut } from "react-icons/fa"
-import { FiLogOut, FiUser } from "react-icons/fi"
+import { FiLogIn, FiLogOut, FiUser } from "react-icons/fi"
 
-import useAuth from "../../hooks/useAuth"
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "../ui/menu"
+import { useAuth } from "../../providers/AuthContext"
 
 const UserMenu = () => {
-  const { user, logout } = useAuth()
 
-  const handleLogout = async () => {
-    logout()
-  }
+  const navigate = useNavigate()
+  const { user, logout, isAuthenticated } = useAuth()
 
   return (
     <>
       <Flex>
         <MenuRoot>
           <MenuTrigger asChild p={2}>
-            <Button data-testid="user-menu" variant="solid" maxW="sm" truncate>
+            <Button
+            variant="subtle"
+            data-testid="user-menu"
+            maxW="sm"
+            truncate
+            >
               <FaUserAstronaut fontSize="18" />
               <Text>{user?.full_name || "User"}</Text>
             </Button>
@@ -38,16 +41,34 @@ const UserMenu = () => {
               </MenuItem>
             </Link>
 
-            <MenuItem
+            {isAuthenticated ? (
+              <MenuItem
               value="logout"
               gap={2}
               py={2}
-              onClick={handleLogout}
+              onClick={logout}
               style={{ cursor: "pointer" }}
-            >
+              >
               <FiLogOut />
               Log Out
             </MenuItem>
+
+            ) : (
+
+              <MenuItem
+              value="login"
+              gap={2}
+              py={2}
+              onClick={() => {
+                navigate({ to: "/login" })
+              }}
+              style={{ cursor: "pointer" }}
+              >
+              <FiLogIn />
+              Log In
+            </MenuItem>
+            )}
+
           </MenuContent>
         </MenuRoot>
       </Flex>
