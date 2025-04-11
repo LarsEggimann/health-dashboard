@@ -18,9 +18,6 @@ class MonitoringHeartRates(BaseModel):
     heart_rate: list[int]
     timestamp: list[datetime]
 
-class MonitoringHeartRates2(SQLModel):
-    data: list[MonitoringHeartRate]
-
 
 class MonitoringHeartRateInput(BaseModel):
     start: Optional[datetime] = None

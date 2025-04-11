@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HealthDataService, MonitoringHeartRates } from '../../client'
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Chart, useChart } from "@chakra-ui/charts"
 import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
 import { Box } from '@chakra-ui/react'

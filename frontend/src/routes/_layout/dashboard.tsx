@@ -1,17 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HealthDataService, MonitoringHeartRates } from '../../client'
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
-import { Chart, useChart } from '@chakra-ui/charts'
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-} from 'recharts'
 import Plot from 'react-plotly.js';
 import { Box } from '@chakra-ui/react'
 import { useColorModeValue } from '../../components/ui/color-mode'
@@ -37,6 +26,8 @@ function RouteComponent() {
   // plot color stuff
   const textColor = useColorModeValue('#1A202C', '#E2E8F0')
   const gridColor = useColorModeValue('#CBD5E0', '#4A5568')
+  const tooltipBgColor = useColorModeValue('rgba(255, 255, 255, 0.9)', 'rgba(26, 32, 44, 0.9)')
+  const tooltipBorderColor = useColorModeValue('#CBD5E0', '#4A5568')
   const bgColor = 'transparent'
 
 
@@ -49,6 +40,20 @@ function RouteComponent() {
             y: heartRateQuery?.data?.heart_rate,
             type: 'scatter',
             mode: 'lines',
+            hoverlabel: {
+              bgcolor: tooltipBgColor,
+              bordercolor: tooltipBorderColor,
+              font: {
+                family: 'Inter, sans-serif',
+                size: 12,
+                color: textColor
+              }
+            },
+            customdata: heartRateQuery?.data?.timestamp?.map((time, i) => [
+              new Date(time).toLocaleTimeString(),
+              heartRateQuery?.data?.heart_rate[i]
+            ]),
+            hovertemplate: '<b>Time:</b> %{customdata[0]}<br><b>Heart Rate:</b> %{customdata[1]} bpm<extra></extra>'
           }
         ]}
         layout={{
@@ -73,11 +78,10 @@ function RouteComponent() {
             showline: false,
             gridwidth: 0.4,
             gridcolor: gridColor,
-            ticklabelstandoff: 10, // space beween tick labels and axis
           },
           yaxis: {
             title: {
-              text: 'Heart Rate (bpm)',
+              text: 'Heart Rate [bpm]',
               standoff: 5, // space between title and axis
             },
             automargin: true,
@@ -85,7 +89,6 @@ function RouteComponent() {
             showline: false,
             gridwidth: 0.4,
             gridcolor: gridColor,
-            ticklabelstandoff: 10,
           },
           margin: { l: 60, r: 30, t: 35, b: 60 },
         }}
@@ -96,7 +99,7 @@ function RouteComponent() {
           toImageButtonOptions: {
             format: 'png',
             filename: 'custom_image',
-          }        
+          }
           // modeBarButtonsToRemove: [],
           // editable: true
         }}
