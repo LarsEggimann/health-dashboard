@@ -14,7 +14,7 @@ import {
 } from 'recharts'
 import Plot from 'react-plotly.js';
 import { Box } from '@chakra-ui/react'
-import { useColorModeValue } from '@chakra-ui/react'
+import { useColorModeValue } from '../../components/ui/color-mode'
 
 export const Route = createFileRoute('/_layout/dashboard')({
   component: RouteComponent,
@@ -34,6 +34,12 @@ function RouteComponent() {
   })
 
 
+  // plot color stuff
+  const textColor = useColorModeValue('#1A202C', '#E2E8F0')
+  const gridColor = useColorModeValue('#CBD5E0', '#4A5568')
+  const bgColor = 'transparent'
+
+
   return (
     <Box w='100%' h='100%'>
       <Plot
@@ -46,39 +52,55 @@ function RouteComponent() {
           }
         ]}
         layout={{
-          title: { text: 'Heart Rate Over Time' },
+          title: { 
+            text: 'Heart Rate Over Time',
+            font: { color: textColor }
+          },
           font: {
-            color: '#E2E8F0',
+            color: textColor,
+            size: 16
           },
           autosize: true,
-          paper_bgcolor: 'transparent',
-          plot_bgcolor: 'transparent',
+          paper_bgcolor: bgColor,
+          plot_bgcolor: bgColor,
           xaxis: {
-            title: 'Time',
-            titlefont: {
-              color: '#E2E8F0',
+            title: {
+              text: 'Time',
+              standoff: 5, // space between title and axis
             },
-            showgrid: true,
-            gridwidth: 0.5,
-            gridcolor: '#4A5568',
+            automargin: true,
+            showgrid: false,
+            showline: false,
+            gridwidth: 0.4,
+            gridcolor: gridColor,
+            ticklabelstandoff: 10, // space beween tick labels and axis
           },
           yaxis: {
-            title: 'Heart Rate (bpm)',
+            title: {
+              text: 'Heart Rate (bpm)',
+              standoff: 5, // space between title and axis
+            },
+            automargin: true,
             showgrid: true,
-            gridwidth: 0.5,
-            gridcolor: '#4A5568',
+            showline: false,
+            gridwidth: 0.4,
+            gridcolor: gridColor,
+            ticklabelstandoff: 10,
           },
-          margin: { l: 40, r: 20, t: 40, b: 40 },
+          margin: { l: 60, r: 30, t: 35, b: 60 },
         }}
         style={{ width: '100%', height: '100%' }}
         config={{
           responsive: true,
           displaylogo: false,
+          toImageButtonOptions: {
+            format: 'png',
+            filename: 'custom_image',
+          }        
           // modeBarButtonsToRemove: [],
           // editable: true
         }}
         useResizeHandler={true}
-
       />
     </Box>
   )
