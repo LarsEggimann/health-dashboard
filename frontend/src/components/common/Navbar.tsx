@@ -5,11 +5,16 @@ import Logo from '../../assets/images/favicon.png'
 import UserMenu from './UserMenu'
 import { useSidebar } from '../../providers/SidebarContext'
 import { useColorMode } from '../ui/color-mode'
+import { useAuth } from '../../providers/AuthContext'
 
 function Navbar() {
   const sidbarContext = useSidebar()
 
   const { textColor } = useColorMode()
+
+  const { user } = useAuth()
+
+  const name = user ? user.first_name + '\'s' : 'Your'
 
   return (
     <Flex
@@ -31,7 +36,7 @@ function Navbar() {
         </Link>
 
         <Text fontSize='2xl' ml={2} color={textColor} fontWeight='bold'>
-          Lars's Health Dashboard
+          {name} Health Dashboard
         </Text>
       </Flex>
       <Flex gap={2} alignItems='center'>

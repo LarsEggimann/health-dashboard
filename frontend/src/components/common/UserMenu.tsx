@@ -17,7 +17,7 @@ const UserMenu = () => {
           <MenuTrigger asChild p={2}>
             <Button variant='subtle' data-testid='user-menu' maxW='sm' truncate>
               <FaUserAstronaut fontSize='18' />
-              <Text>{user?.full_name || 'User'}</Text>
+              <Text>{user?.username || 'User'}</Text>
             </Button>
           </MenuTrigger>
 

@@ -22,9 +22,11 @@ export function UserInfo() {
 
   const userData = currentUser?.data
 
+  const fullName = userData?.first_name + ' ' + userData?.last_name
+
   return (
-    <Box p={8} w={'100%'} h='100%'>
-      <Card.Root shadow='md' mb={6}>
+    <Box p='8' w='100%' h='100%'>
+      <Card.Root shadow='md' mb={0}>
         <Card.Header>
           <Flex justify='space-between' align='center'>
             <Heading size='2xl' color={textColor}>
@@ -48,7 +50,7 @@ export function UserInfo() {
                   Admin
                 </Badge>
               )}
-              <Avatar.Fallback name={userData?.full_name ?? '?'} />
+              <Avatar.Fallback name={fullName ?? '?'} />
             </Avatar.Root>
           </Flex>
         </Card.Header>
@@ -61,9 +63,16 @@ export function UserInfo() {
             </Stat.Root>
 
             <Stat.Root>
-              <Stat.Label fontSize='md'>Full Name</Stat.Label>
+              <Stat.Label fontSize='md'>First Name</Stat.Label>
               <Stat.ValueText fontSize='lg'>
-                {userData?.full_name}
+                {userData?.first_name}
+              </Stat.ValueText>
+            </Stat.Root>
+
+            <Stat.Root>
+              <Stat.Label fontSize='md'>Last Name</Stat.Label>
+              <Stat.ValueText fontSize='lg'>
+                {userData?.last_name}
               </Stat.ValueText>
             </Stat.Root>
 

@@ -14,7 +14,7 @@ const Sidebar = () => {
     <>
       <Box
         width='xs'
-        bg='bg.subtle'
+        bg='bg.emphasized'
         display={sidebarContext.isOpen ? 'block' : 'none'}
         // transform={sidebarContext.isOpen ? "translateX(0)" : "translateX(-100%)"}
         // transition="transform 0.1s ease-in-out"
@@ -30,7 +30,7 @@ const Sidebar = () => {
           </Box>
           {currentUser?.email && (
             <Text fontSize='sm' p={4} truncate maxW='sm'>
-              Logged in as: {currentUser.email}
+              Logged in as: {currentUser.username}
             </Text>
           )}
         </Flex>

@@ -1,7 +1,131 @@
 {
   "openapi": "3.1.0",
-  "info": { "title": "Health Dashboard API", "version": "0.1.0" },
+  "info": {
+    "title": "Health Dashboard API",
+    "version": "0.1.0"
+  },
   "paths": {
+    "/api/v1/health-data-management/update": {
+      "post": {
+        "tags": ["health-data-management"],
+        "summary": "Update Health Data",
+        "description": "Update health data, starts separete process to update server db for corresponding user",
+        "operationId": "health-data-management-update_health_data",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProcessStatus"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/health-data-management/update/status": {
+      "get": {
+        "tags": ["health-data-management"],
+        "summary": "Get Status On Update Health Data",
+        "description": "Get status on update health data process",
+        "operationId": "health-data-management-get_status_on_update_health_data",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProcessStatus"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/health-data/monitoring/heart-rate": {
+      "get": {
+        "tags": ["health-data"],
+        "summary": "Get Monitoring Heart Rate",
+        "description": "Get monitoring heart rate based on optional time frame input.",
+        "operationId": "health-data-get_monitoring_heart_rate",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MonitoringHeartRates"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/login/access-token": {
       "post": {
         "tags": ["auth"],
@@ -23,7 +147,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Token" }
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
               }
             }
           },
@@ -31,7 +157,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -49,30 +177,21 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserPublic" }
+                "schema": {
+                  "$ref": "#/components/schemas/UserPublic"
+                }
               }
             }
           }
         },
-        "security": [{ "OAuth2PasswordBearer": [] }]
-      }
-    },
-    "/api/v1/test": {
-      "get": {
-        "tags": ["users"],
-        "summary": "Test Auth",
-        "description": "test auth",
-        "operationId": "users-test_auth",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
           }
-        },
-        "security": [{ "OAuth2PasswordBearer": [] }]
+        ]
       }
     },
-    "/api/v1/private/users/": {
+    "/api/v1/private/users": {
       "post": {
         "tags": ["private"],
         "summary": "Create User",
@@ -81,7 +200,9 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/PrivateUserCreate" }
+              "schema": {
+                "$ref": "#/components/schemas/PrivateUserCreate"
+              }
             }
           },
           "required": true
@@ -91,7 +212,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserPublic" }
+                "schema": {
+                  "$ref": "#/components/schemas/UserPublic"
+                }
               }
             }
           },
@@ -99,7 +222,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -113,20 +238,49 @@
         "properties": {
           "grant_type": {
             "anyOf": [
-              { "type": "string", "pattern": "^password$" },
-              { "type": "null" }
+              {
+                "type": "string",
+                "pattern": "^password$"
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Grant Type"
           },
-          "username": { "type": "string", "title": "Username" },
-          "password": { "type": "string", "title": "Password" },
-          "scope": { "type": "string", "title": "Scope", "default": "" },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
           "client_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Client Id"
           },
           "client_secret": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Client Secret"
           }
         },
@@ -137,7 +291,9 @@
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
             "type": "array",
             "title": "Detail"
           }
@@ -145,31 +301,97 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "MonitoringHeartRates": {
+        "properties": {
+          "heart_rate": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Heart Rate"
+          },
+          "timestamp": {
+            "items": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "type": "array",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": ["heart_rate", "timestamp"],
+        "title": "MonitoringHeartRates"
+      },
       "PrivateUserCreate": {
         "properties": {
-          "username": { "type": "string", "title": "Username" },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
           "email": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Email"
           },
-          "full_name": {
+          "first_name": {
             "anyOf": [
-              { "type": "string", "maxLength": 255 },
-              { "type": "null" }
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
             ],
-            "title": "Full Name"
+            "title": "First Name"
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
           },
           "disabled": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Disabled",
             "default": false
           },
           "is_superuser": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Is Superuser",
             "default": false
           },
-          "password": { "type": "string", "title": "Password" }
+          "password": {
+            "type": "string",
+            "title": "Password"
+          }
         },
         "type": "object",
         "required": ["username", "password"],
@@ -178,7 +400,10 @@
       },
       "Token": {
         "properties": {
-          "access_token": { "type": "string", "title": "Access Token" },
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
           "token_type": {
             "type": "string",
             "title": "Token Type",
@@ -189,27 +414,80 @@
         "required": ["access_token"],
         "title": "Token"
       },
+      "UpdateProcessStatus": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["running", "finished"],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": ["status"],
+        "title": "UpdateProcessStatus"
+      },
       "UserPublic": {
         "properties": {
-          "username": { "type": "string", "title": "Username" },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
           "email": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Email"
           },
-          "full_name": {
+          "first_name": {
             "anyOf": [
-              { "type": "string", "maxLength": 255 },
-              { "type": "null" }
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
             ],
-            "title": "Full Name"
+            "title": "First Name"
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
           },
           "disabled": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Disabled",
             "default": false
           },
           "is_superuser": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Is Superuser",
             "default": false
           }
@@ -221,12 +499,27 @@
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
             "type": "array",
             "title": "Location"
           },
-          "msg": { "type": "string", "title": "Message" },
-          "type": { "type": "string", "title": "Error Type" }
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
         },
         "type": "object",
         "required": ["loc", "msg", "type"],
@@ -237,7 +530,10 @@
       "OAuth2PasswordBearer": {
         "type": "oauth2",
         "flows": {
-          "password": { "scopes": {}, "tokenUrl": "/api/v1/login/access-token" }
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/login/access-token"
+          }
         }
       }
     }
