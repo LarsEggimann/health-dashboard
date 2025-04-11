@@ -1,21 +1,22 @@
-from typing import Literal
+from typing import Literal, Optional
 from pydantic import BaseModel
 from sqlmodel import Field, SQLModel
 from datetime import datetime
-
-class ReadOnlyModel(SQLModel):
-    class Config:
-        arbitrary_types_allowed = True
-        orm_mode = True
+from fastapi import Query
 
 class UpdateProcessStatus(BaseModel):
     status: Literal["running", "finished"]
 
-class MonitoringHeartRate(ReadOnlyModel, table=True):
+class MonitoringHeartRate(SQLModel, table=True):
     __tablename__ = "monitoring_hr"
     timestamp: datetime = Field(primary_key=True)
     heart_rate: int
 
-class MonitoringHeartRates(ReadOnlyModel):
+class MonitoringHeartRates(BaseModel):
     heart_rate: list[int]
     timestamp: list[datetime]
+
+
+class MonitoringHeartRateInput(BaseModel):
+    start: Optional[datetime] = None
+    end: Optional[datetime] = None
