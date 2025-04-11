@@ -1,24 +1,20 @@
 from sqlmodel import Session, select
-from typing import Optional
-from datetime import datetime
 from app.models.garmin import MonitoringHeartRate, MonitoringHeartRates
+from app.models.common import TimeFrameInput
 
 
 def get_monitoring_heart_rate(
-    *,
-    session: Session,
-    start: Optional[datetime] = None,
-    end: Optional[datetime] = None,
+    *, session: Session, time_frame: TimeFrameInput
 ) -> MonitoringHeartRates | None:
     """
     Get monitoring heart rate
     """
     statement = select(MonitoringHeartRate.timestamp, MonitoringHeartRate.heart_rate)
 
-    if start:
-        statement = statement.where(MonitoringHeartRate.timestamp >= start)
-    if end:
-        statement = statement.where(MonitoringHeartRate.timestamp <= end)
+    if time_frame.start:
+        statement = statement.where(MonitoringHeartRate.timestamp >= time_frame.start)
+    if time_frame.end:
+        statement = statement.where(MonitoringHeartRate.timestamp <= time_frame.end)
 
     session_hr = session.exec(statement).all()
 

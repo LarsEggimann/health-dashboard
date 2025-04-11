@@ -5,12 +5,13 @@ from contextlib import asynccontextmanager
 
 from app.core.config import settings
 from app.core.db import init_db
-from app.routers import auth, users, private, health_data
+from app.routers import auth, users, private, health_data, health_data_management
 
 api_router = APIRouter()
+api_router.include_router(health_data_management.router)
+api_router.include_router(health_data.router)
 api_router.include_router(auth.router)
 api_router.include_router(users.router)
-api_router.include_router(health_data.router)
 
 if settings.ENVIRONMENT == "local":
     api_router.include_router(private.router)
