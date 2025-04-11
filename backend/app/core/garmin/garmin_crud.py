@@ -1,11 +1,15 @@
-
-
 from sqlmodel import Session, select
-from typing import Literal, Optional, Annotated
+from typing import Optional
 from datetime import datetime
 from app.models.garmin import MonitoringHeartRate, MonitoringHeartRates
 
-def get_monitoring_heart_rate(*, session: Session, start: Optional[datetime] = None, end: Optional[datetime] = None) -> MonitoringHeartRates | None:
+
+def get_monitoring_heart_rate(
+    *,
+    session: Session,
+    start: Optional[datetime] = None,
+    end: Optional[datetime] = None,
+) -> MonitoringHeartRates | None:
     """
     Get monitoring heart rate
     """

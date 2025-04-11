@@ -10,13 +10,16 @@ def _update_local_db_process():
     """
     os.system("garmindb_cli.py --all --download --import --analyze --latest")
 
+
 _update_process = multiprocessing.Process(target=_update_local_db_process)
+
 
 def start_update_local_db():
     """
     Start update local db
     """
     _update_process.start()
+
 
 def status_update_local_db():
     """

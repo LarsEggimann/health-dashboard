@@ -2,7 +2,8 @@ import secrets
 from typing import Literal
 import os
 
-class Settings():
+
+class Settings:
     """Settings for the application."""
 
     # Application settings
