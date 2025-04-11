@@ -1,13 +1,9 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
-import { useQueryClient } from '@tanstack/react-query'
+import { Box, Flex } from '@chakra-ui/react'
 
-import type { UserPublic } from '../../../client'
 import SidebarItems from './SidebarItems'
 import { useSidebar } from '../../../providers/SidebarContext'
 
 const Sidebar = () => {
-  const queryClient = useQueryClient()
-  const currentUser = queryClient.getQueryData<UserPublic>(['currentUser'])
   const sidebarContext = useSidebar()
 
   return (
@@ -32,11 +28,6 @@ const Sidebar = () => {
           <Box>
             <SidebarItems />
           </Box>
-          {currentUser?.email && (
-            <Text fontSize='sm' p={4} truncate maxW='sm'>
-              Logged in as: {currentUser.username}
-            </Text>
-          )}
         </Flex>
       </Box>
     </>

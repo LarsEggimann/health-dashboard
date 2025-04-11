@@ -1,10 +1,10 @@
 import {
   ErrorComponent,
-  Link,
   rootRouteId,
   useMatch,
   useRouter,
 } from '@tanstack/react-router'
+import { Box, Button, Text, Card } from '@chakra-ui/react'
 import type { ErrorComponentProps } from '@tanstack/react-router'
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
@@ -17,37 +17,46 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   console.error(error)
 
   return (
-    <div className='min-w-0 flex-1 p-4 flex flex-col items-center justify-center gap-6'>
-      <ErrorComponent error={error} />
-      <div className='flex gap-2 items-center flex-wrap'>
-        <button
+    <Box>
+      <Text fontSize='xl' fontWeight='bold' m={2}>
+        Oh no! We have an error! 🫠
+      </Text>
+
+      <Card.Root p={2} m={2}>
+        <ErrorComponent error={error} />
+      </Card.Root>
+
+      <Button
+        variant='surface'
+        m={2}
+        onClick={() => {
+          router.invalidate()
+        }}
+      >
+        Try Again
+      </Button>
+      {isRoot ? (
+        <Button
+          variant='surface'
+          m={2}
           onClick={() => {
-            router.invalidate()
+            router.navigate({ to: '/' })
           }}
-          className={`px-2 py-1 bg-gray-600 dark:bg-gray-700 rounded text-white uppercase font-extrabold`}
         >
-          Try Again
-        </button>
-        {isRoot ? (
-          <Link
-            to='/'
-            className={`px-2 py-1 bg-gray-600 dark:bg-gray-700 rounded text-white uppercase font-extrabold`}
-          >
-            Home
-          </Link>
-        ) : (
-          <Link
-            to='/'
-            className={`px-2 py-1 bg-gray-600 dark:bg-gray-700 rounded text-white uppercase font-extrabold`}
-            onClick={(e) => {
-              e.preventDefault()
-              window.history.back()
-            }}
-          >
-            Go Back
-          </Link>
-        )}
-      </div>
-    </div>
+          Home
+        </Button>
+      ) : (
+        <Button
+          variant='surface'
+          m={2}
+          onClick={(e) => {
+            e.preventDefault()
+            window.history.back()
+          }}
+        >
+          Go Back
+        </Button>
+      )}
+    </Box>
   )
 }

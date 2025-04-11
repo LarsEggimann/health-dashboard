@@ -16,6 +16,9 @@ import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutUserInfoImport } from './routes/_layout/user-info'
 import { Route as LayoutUserImport } from './routes/_layout/user'
 import { Route as LayoutLoginImport } from './routes/_layout/login'
+import { Route as LayoutDashboardPrettyImport } from './routes/_layout/dashboard-pretty'
+import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
+import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAboutImport } from './routes/_layout/about'
 
 // Create/Update Routes
@@ -49,6 +52,24 @@ const LayoutLoginRoute = LayoutLoginImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutDashboardPrettyRoute = LayoutDashboardPrettyImport.update({
+  id: '/dashboard-pretty',
+  path: '/dashboard-pretty',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutDashboardRoute = LayoutDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutAdminRoute = LayoutAdminImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutAboutRoute = LayoutAboutImport.update({
   id: '/about',
   path: '/about',
@@ -71,6 +92,27 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof LayoutAboutImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/admin': {
+      id: '/_layout/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof LayoutAdminImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard': {
+      id: '/_layout/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof LayoutDashboardImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/dashboard-pretty': {
+      id: '/_layout/dashboard-pretty'
+      path: '/dashboard-pretty'
+      fullPath: '/dashboard-pretty'
+      preLoaderRoute: typeof LayoutDashboardPrettyImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/login': {
@@ -108,6 +150,9 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutAboutRoute: typeof LayoutAboutRoute
+  LayoutAdminRoute: typeof LayoutAdminRoute
+  LayoutDashboardRoute: typeof LayoutDashboardRoute
+  LayoutDashboardPrettyRoute: typeof LayoutDashboardPrettyRoute
   LayoutLoginRoute: typeof LayoutLoginRoute
   LayoutUserRoute: typeof LayoutUserRoute
   LayoutUserInfoRoute: typeof LayoutUserInfoRoute
@@ -116,6 +161,9 @@ interface LayoutRouteChildren {
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutRoute: LayoutAboutRoute,
+  LayoutAdminRoute: LayoutAdminRoute,
+  LayoutDashboardRoute: LayoutDashboardRoute,
+  LayoutDashboardPrettyRoute: LayoutDashboardPrettyRoute,
   LayoutLoginRoute: LayoutLoginRoute,
   LayoutUserRoute: LayoutUserRoute,
   LayoutUserInfoRoute: LayoutUserInfoRoute,
@@ -128,6 +176,9 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/about': typeof LayoutAboutRoute
+  '/admin': typeof LayoutAdminRoute
+  '/dashboard': typeof LayoutDashboardRoute
+  '/dashboard-pretty': typeof LayoutDashboardPrettyRoute
   '/login': typeof LayoutLoginRoute
   '/user': typeof LayoutUserRoute
   '/user-info': typeof LayoutUserInfoRoute
@@ -136,6 +187,9 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/about': typeof LayoutAboutRoute
+  '/admin': typeof LayoutAdminRoute
+  '/dashboard': typeof LayoutDashboardRoute
+  '/dashboard-pretty': typeof LayoutDashboardPrettyRoute
   '/login': typeof LayoutLoginRoute
   '/user': typeof LayoutUserRoute
   '/user-info': typeof LayoutUserInfoRoute
@@ -143,9 +197,12 @@ export interface FileRoutesByTo {
 }
 
 export interface FileRoutesById {
-  '__root__': typeof rootRoute
+  __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/about': typeof LayoutAboutRoute
+  '/_layout/admin': typeof LayoutAdminRoute
+  '/_layout/dashboard': typeof LayoutDashboardRoute
+  '/_layout/dashboard-pretty': typeof LayoutDashboardPrettyRoute
   '/_layout/login': typeof LayoutLoginRoute
   '/_layout/user': typeof LayoutUserRoute
   '/_layout/user-info': typeof LayoutUserInfoRoute
@@ -154,13 +211,33 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/about' | '/login' | '/user' | '/user-info' | '/'
+  fullPaths:
+    | ''
+    | '/about'
+    | '/admin'
+    | '/dashboard'
+    | '/dashboard-pretty'
+    | '/login'
+    | '/user'
+    | '/user-info'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/login' | '/user' | '/user-info' | '/'
+  to:
+    | '/about'
+    | '/admin'
+    | '/dashboard'
+    | '/dashboard-pretty'
+    | '/login'
+    | '/user'
+    | '/user-info'
+    | '/'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/about'
+    | '/_layout/admin'
+    | '/_layout/dashboard'
+    | '/_layout/dashboard-pretty'
     | '/_layout/login'
     | '/_layout/user'
     | '/_layout/user-info'
@@ -193,6 +270,9 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/about",
+        "/_layout/admin",
+        "/_layout/dashboard",
+        "/_layout/dashboard-pretty",
         "/_layout/login",
         "/_layout/user",
         "/_layout/user-info",
@@ -201,6 +281,18 @@ export const routeTree = rootRoute
     },
     "/_layout/about": {
       "filePath": "_layout/about.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/admin": {
+      "filePath": "_layout/admin.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/dashboard": {
+      "filePath": "_layout/dashboard.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/dashboard-pretty": {
+      "filePath": "_layout/dashboard-pretty.tsx",
       "parent": "/_layout"
     },
     "/_layout/login": {

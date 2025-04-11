@@ -7,7 +7,7 @@ import type { IconType } from 'react-icons/lib'
 import type { UserPublic } from '../../../client'
 
 const items = [
-  { icon: FiHome, title: 'Dashboard', path: '/' },
+  { icon: FiHome, title: 'Dashboard', path: '/dashboard' },
   { icon: FiInfo, title: 'About', path: '/about' },
   { icon: FiTag, title: 'Testing', path: '/user' },
   { icon: FiUser, title: 'User Info', path: '/user-info' },
