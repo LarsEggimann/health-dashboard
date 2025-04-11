@@ -17,7 +17,9 @@ function RouteComponent() {
         <Flex flex='1' overflow='hidden'>
           <Sidebar />
 
-          <Outlet />
+          <Box mr={2} mb={2} w='100%' bg='bg.muted' rounded='lg'>
+            <Outlet />
+          </Box>
         </Flex>
       </Flex>
     </>

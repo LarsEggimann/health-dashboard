@@ -15,7 +15,7 @@ const UserMenu = () => {
       <Flex>
         <MenuRoot>
           <MenuTrigger asChild p={2}>
-            <Button variant='subtle' data-testid='user-menu' maxW='sm' truncate>
+            <Button variant='ghost' data-testid='user-menu' maxW='sm' truncate>
               <FaUserAstronaut fontSize='18' />
               <Text>{user?.username || 'User'}</Text>
             </Button>
@@ -24,18 +24,18 @@ const UserMenu = () => {
           <MenuContent>
             {isAuthenticated && (
               <Link to='/user-info'>
-              <MenuItem
-                closeOnSelect
-                value='user-info'
-                gap={2}
-                py={2}
-                style={{ cursor: 'pointer' }}
+                <MenuItem
+                  closeOnSelect
+                  value='user-info'
+                  gap={2}
+                  py={2}
+                  style={{ cursor: 'pointer' }}
                 >
-                <FiUser fontSize='18px' />
-                <Box flex='1'>My Profile</Box>
-              </MenuItem>
-            </Link>
-              )}
+                  <FiUser fontSize='18px' />
+                  <Box flex='1'>My Profile</Box>
+                </MenuItem>
+              </Link>
+            )}
 
             {isAuthenticated ? (
               <MenuItem

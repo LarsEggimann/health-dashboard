@@ -13,7 +13,6 @@ import {
 import { useColorMode } from './ui/color-mode'
 
 export function UserInfo() {
-
   // reuse currentUser query from react-query
   const currentUser = useQueryClient().getQueryState<UserPublic>([
     'currentUser',

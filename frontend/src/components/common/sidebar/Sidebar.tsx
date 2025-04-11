@@ -13,8 +13,12 @@ const Sidebar = () => {
   return (
     <>
       <Box
+        rounded='lg'
+        p={2}
+        m={2}
+        mt={0}
         width='xs'
-        bg='bg.emphasized'
+        bg='bg.muted'
         display={sidebarContext.isOpen ? 'block' : 'none'}
         // transform={sidebarContext.isOpen ? "translateX(0)" : "translateX(-100%)"}
         // transition="transform 0.1s ease-in-out"
