@@ -13,7 +13,10 @@ export const Route = createFileRoute('/_layout/dashboard')({
 })
 
 function RouteComponent() {
-  const [selected, setSelected] = useState<DateRange>()
+  const [selected, setSelected] = useState<DateRange | undefined>({
+    from: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+    to: new Date(),
+  })
 
   const heartRateQuery = useQuery<MonitoringHeartRates>({
     queryKey: ['monitoringHeartRate', selected],
@@ -65,6 +68,7 @@ function RouteComponent() {
           mode='range'
           selected={selected}
           onSelect={setSelected}
+          required={false}
           footer={
             selected
               ? `Selected: ${selected.from?.toISOString()} - ${selected.to?.toISOString()}`
