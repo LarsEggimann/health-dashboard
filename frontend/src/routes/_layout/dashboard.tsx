@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HealthDataService, MonitoringHeartRates } from '../../client'
 import { useQuery } from '@tanstack/react-query'
-import Plot from 'react-plotly.js'
 import { Box } from '@chakra-ui/react'
-import { useColorModeValue } from '../../components/ui/color-mode'
 import { useState } from 'react'
-import { DateRange, DayPicker } from 'react-day-picker'
+import { DateRange } from 'react-day-picker'
 import 'react-day-picker/style.css'
+import DateSelectorPopover from '../../components/common/DateSelectorPopover'
+import TimeSeriesChart from '../../components/common/PlotlyPlot'
 
 export const Route = createFileRoute('/_layout/dashboard')({
   component: RouteComponent,
@@ -36,119 +36,26 @@ function RouteComponent() {
     },
   })
 
-  // plot color stuff
-  const textColor = useColorModeValue('#1A202C', '#E2E8F0')
-  const gridColor = useColorModeValue('#CBD5E0', '#4A5568')
-  const tooltipBgColor = useColorModeValue(
-    'rgba(255, 255, 255, 0.9)',
-    'rgba(26, 32, 44, 0.9)',
-  )
-  const tooltipBorderColor = useColorModeValue('#CBD5E0', '#4A5568')
-  const bgColor = 'transparent'
-
   return (
-    <Box w='100%'>
+    <Box w='100%' h='100%'>
       <Box className='chakra-day-picker'>
-        <style>
-          {`
-      .chakra-day-picker {
-        --rdp-accent-color: var(--chakra-colors-blue-500);
-        --rdp-background-color: var(--chakra-colors-gray-100);
-        --rdp-color: var(--chakra-colors-gray-900);
-      }
-
-      [data-theme='dark'] .chakra-day-picker {
-        --rdp-background-color: var(--chakra-colors-gray-700);
-        --rdp-color: var(--chakra-colors-whiteAlpha-900);
-      }
-    `}
-        </style>
-        <DayPicker
-          className='chakra-day-picker'
-          mode='range'
+        <DateSelectorPopover
           selected={selected}
-          onSelect={setSelected}
-          required={false}
-          footer={
-            selected
-              ? `Selected: ${selected.from?.toISOString()} - ${selected.to?.toISOString()}`
-              : 'Pick a day.'
-          }
+          setSelected={setSelected}
+          buttonLabel='Select Date Range'
         />
       </Box>
-      <Plot
-        data={[
-          {
-            x: heartRateQuery?.data?.timestamp,
-            y: heartRateQuery?.data?.heart_rate,
-            type: 'scatter',
-            mode: 'lines',
-            hoverlabel: {
-              bgcolor: tooltipBgColor,
-              bordercolor: tooltipBorderColor,
-              font: {
-                family: 'Inter, sans-serif',
-                size: 12,
-                color: textColor,
-              },
-            },
-            customdata: heartRateQuery?.data?.timestamp?.map((time, i) => [
-              new Date(time).toLocaleTimeString(),
-              heartRateQuery?.data?.heart_rate[i],
-            ]),
-            hovertemplate:
-              '<b>Time:</b> %{customdata[0]}<br><b>Heart Rate:</b> %{customdata[1]} bpm<extra></extra>',
-          },
-        ]}
-        layout={{
-          title: {
-            text: 'Heart Rate Over Time',
-            font: { color: textColor },
-          },
-          font: {
-            color: textColor,
-            size: 16,
-          },
-          autosize: true,
-          paper_bgcolor: bgColor,
-          plot_bgcolor: bgColor,
-          xaxis: {
-            title: {
-              text: 'Time',
-              standoff: 5, // space between title and axis
-            },
-            automargin: true,
-            showgrid: false,
-            showline: false,
-            gridwidth: 0.4,
-            gridcolor: gridColor,
-          },
-          yaxis: {
-            title: {
-              text: 'Heart Rate [bpm]',
-              standoff: 5, // space between title and axis
-            },
-            automargin: true,
-            showgrid: true,
-            showline: false,
-            gridwidth: 0.4,
-            gridcolor: gridColor,
-          },
-          margin: { l: 60, r: 30, t: 35, b: 60 },
-        }}
-        style={{ width: '100%', height: '100%' }}
-        config={{
-          responsive: true,
-          displaylogo: false,
-          toImageButtonOptions: {
-            format: 'png',
-            filename: 'custom_image',
-          },
-          // modeBarButtonsToRemove: [],
-          // editable: true
-        }}
-        useResizeHandler={true}
-      />
+      {!heartRateQuery.isPending && (
+        <TimeSeriesChart
+          xData={() => heartRateQuery.data?.timestamp || []}
+          yData={() => heartRateQuery.data?.heart_rate || []}
+          height={500}
+          title='Heart Rate Over Time'
+          xAxisLabel='Time'
+          yAxisLabel='Heart Rate [bpm]'
+          hoverTemplate='<b>Time:</b> %{customdata[0]}<br><b>Heart Rate:</b> %{customdata[1]} bpm<extra></extra>'
+        />
+      )}
     </Box>
   )
 }

@@ -27,7 +27,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
 
   const SideBarButton = () => {
     return (
-      <IconButton variant='ghost' m={4} onClick={toggle}>
+      <IconButton variant='surface' m={4} onClick={toggle}>
         <FaBars />
       </IconButton>
     )

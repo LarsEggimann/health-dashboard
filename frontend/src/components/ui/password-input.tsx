@@ -31,7 +31,7 @@ export interface PasswordInputProps
   rootProps?: GroupProps
   startElement?: React.ReactNode
   type: string
-  errors: any
+  errors: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
@@ -100,7 +100,7 @@ const VisibilityTrigger = forwardRef<HTMLButtonElement, ButtonProps>(
         me='-2'
         aspectRatio='square'
         size='sm'
-        variant='ghost'
+        variant='surface'
         height='calc(100% - {spacing.2})'
         aria-label='Toggle password visibility'
         color='inherit'

@@ -88,7 +88,7 @@ function Login() {
         errors={errors}
       />
       <Button
-        variant='solid'
+        variant='surface'
         type='submit'
         loading={isSubmitting || auth.isLoading}
         size='md'
