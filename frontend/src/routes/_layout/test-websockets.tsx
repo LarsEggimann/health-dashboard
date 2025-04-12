@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { CurrentDataResponse, ElectrometerService } from '../../client'
 import { Button, Flex } from '@chakra-ui/react'
-import TimeSeriesChart from '../../components/common/PlotlyPlot'
+import TimeSeriesChart from '../../components/common/PlotlyPlotSmart'
 import { DateRange } from 'react-day-picker'
 
 export const Route = createFileRoute('/_layout/test-websockets')({

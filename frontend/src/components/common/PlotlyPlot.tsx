@@ -57,6 +57,8 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
             line: {
               color: finalLineColor,
               width: 2,
+              shape: 'spline',
+              smoothing: 0.8,
             },
             hoverlabel: {
               bgcolor: tooltipBgColor,

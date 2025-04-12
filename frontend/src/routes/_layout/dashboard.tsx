@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import 'react-day-picker/style.css'
 import DateSelectorPopover from '../../components/common/DateSelectorPopover'
-import TimeSeriesChart from '../../components/common/PlotlyPlot'
+import TimeSeriesChart from '../../components/common/PlotlyPlotSmart'
 
 export const Route = createFileRoute('/_layout/dashboard')({
   component: RouteComponent,
@@ -49,11 +49,7 @@ function RouteComponent() {
         <TimeSeriesChart
           xData={() => heartRateQuery.data?.timestamp || []}
           yData={() => heartRateQuery.data?.heart_rate || []}
-          height={500}
-          title='Heart Rate Over Time'
-          xAxisLabel='Time'
-          yAxisLabel='Heart Rate [bpm]'
-          hoverTemplate='<b>Time:</b> %{customdata[0]}<br><b>Heart Rate:</b> %{customdata[1]} bpm<extra></extra>'
+          animationDuration={2000}
         />
       )}
     </Box>
