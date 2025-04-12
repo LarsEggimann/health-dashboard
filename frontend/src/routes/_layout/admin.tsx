@@ -8,11 +8,11 @@ export const Route = createFileRoute('/_layout/admin')({
 })
 
 function RouteComponent() {
-
   const updateStatusQuerry = useQuery({
     queryKey: ['updateHealthDataStatus'],
     queryFn: async () => {
-      const response = await HealthDataManagementService.healthDataManagementGetStatusOnUpdateHealthData()
+      const response =
+        await HealthDataManagementService.healthDataManagementGetStatusOnUpdateHealthData()
       if (!response.data) {
         throw new Error('Error fetching health data management status')
       }
@@ -24,29 +24,24 @@ function RouteComponent() {
     <Flex gap={4}>
       <Button
         variant='surface'
-        onClick={
-          async () => {
-            HealthDataManagementService.healthDataManagementUpdateHealthData({}).then((res) => {
-              console.log(res)
-            })
-          }
-        }
+        onClick={async () => {
+          HealthDataManagementService.healthDataManagementUpdateHealthData(
+            {},
+          ).then((res) => {
+            console.log(res)
+          })
+        }}
       >
         Update Health Data
-        
       </Button>
 
-      <Button
-        variant='surface'
-        onClick={() => updateStatusQuerry.refetch()}
-      >
+      <Button variant='surface' onClick={() => updateStatusQuerry.refetch()}>
         Refresh Status
       </Button>
 
       <Box>
-          <div>Status: {JSON.stringify(updateStatusQuerry.data)}</div>
+        <div>Status: {JSON.stringify(updateStatusQuerry.data)}</div>
       </Box>
     </Flex>
-
   )
 }
