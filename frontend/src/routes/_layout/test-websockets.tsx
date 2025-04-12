@@ -16,7 +16,7 @@ function RouteComponent() {
   const [ws, setWs] = useState<WebSocket | undefined>(undefined)
 
   const [selected, setSelected] = useState<DateRange | undefined>({
-    from: new Date(Date.now() - 10 * 1000),
+    from: new Date(Date.now() - 30 * 1000),
     to: new Date(),
   })
 

@@ -1,30 +1,37 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Plot from 'react-plotly.js'
 import { Box } from '@chakra-ui/react'
+import * as Plotly from 'plotly.js-dist-min'
 import { useColorModeValue } from '../../components/ui/color-mode'
 
 interface TimeSeriesChartProps {
-  xData: () => any[] // eslint-disable-line @typescript-eslint/no-explicit-any
-  yData: () => any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  xData: () => number[] | string[]
+  yData: () => number[]
   title?: string
   xAxisLabel?: string
   yAxisLabel?: string
-  customData?: any[][] // eslint-disable-line @typescript-eslint/no-explicit-any
-  hoverTemplate?: string
+  animationDuration?: number // duration in milliseconds
   lineColor?: string
+  hoverTemplate?: string
   height?: string | number
+}
+type PlotlyFigure = {
+  data: Plotly.Data[]
+  layout: Partial<Plotly.Layout>
+  frames?: Plotly.Frame[] | null
+  config?: Partial<Plotly.Config>
 }
 
 const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
-  xData,
-  yData,
+  xData: x,
+  yData: y,
   title = 'Time Series Chart',
   xAxisLabel = 'Time',
   yAxisLabel = 'Value',
-  customData,
+  animationDuration = 300,
   hoverTemplate = '<b>X:</b> %{x}<br><b>Y:</b> %{y}<extra></extra>',
   lineColor,
-  height = '400px',
+  height = '600px',
 }) => {
   const textColor = useColorModeValue('#1A202C', '#E2E8F0')
   const gridColor = useColorModeValue('#CBD5E0', '#4A5568')
@@ -41,39 +48,41 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
 
   const finalLineColor = lineColor || defaultLineColor
 
-  const defaultCustomData =
-    customData ||
-    xData().map((x, y) => [new Date(x).toLocaleTimeString(), yData()[y]])
+  const customData = x().map((i, j) => [new Date(i).toLocaleTimeString(), y()[j]])
 
-  return (
-    <Box w='100%' h='100%'>
-      <Plot
-        data={[
-          {
-            x: xData(),
-            y: yData(),
-            type: 'scatter',
-            mode: 'lines',
-            line: {
-              color: finalLineColor,
-              width: 2,
-              shape: 'spline',
-              smoothing: 0.8,
-            },
-            hoverlabel: {
-              bgcolor: tooltipBgColor,
-              bordercolor: tooltipBorderColor,
-              font: {
-                family: 'Inter, sans-serif',
-                size: 12,
-                color: textColor,
-              },
-            },
-            customdata: defaultCustomData,
-            hovertemplate: hoverTemplate,
+  const getPlotData = (
+      xVals: number[] | string[],
+      yVals: number[],
+    ): Plotly.Data[] => {
+      return [
+        {
+          x: xVals,
+          y: yVals,
+          type: 'scatter',
+          mode: 'lines',
+          line: {
+            color: finalLineColor,
+            shape: 'spline',
+            smoothing: 0.8,
           },
-        ]}
-        layout={{
+          hoverlabel: {
+            bgcolor: tooltipBgColor,
+            bordercolor: tooltipBorderColor,
+            font: {
+              family: 'Inter, sans-serif',
+              size: 12,
+              color: textColor,
+            },
+          },
+          customdata: customData,
+          hovertemplate: hoverTemplate,
+        },
+      ]
+    }
+
+    const [figure, setFigure] = useState<PlotlyFigure>({
+        data: getPlotData(x(), y()),
+        layout: {
           title: {
             text: title,
             font: { color: textColor },
@@ -108,20 +117,105 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
             gridcolor: gridColor,
           },
           margin: { l: 60, r: 30, t: 35, b: 60 },
-        }}
-        style={{ width: '100%', height }}
-        config={{
+          transition: {
+            easing: 'cubic-in-out',
+            duration: animationDuration,
+          },
+        },
+        frames: [],
+        config: {
           responsive: true,
           displaylogo: false,
           toImageButtonOptions: {
             format: 'png',
             filename: 'chart_export',
           },
-          // modeBarButtonsToRemove: [],
-          // editable: true
-        }}
-        useResizeHandler={true}
-      />
+        },
+      })
+
+      const [hasAnimated, setHasAnimated] = useState(false);
+
+      useEffect(() => {
+        // const initialLength = x().length;
+    
+        // Fixed axes
+        const xRange = [x()[0], x()[x().length - 1]];
+        const yMin = Math.min(...y());
+        const yMax = Math.max(...y());
+        const yPadding = (yMax - yMin) * 0.1;
+
+        const newLayout: Partial<Plotly.Layout> = {
+          ...figure.layout,
+          xaxis: {
+            ...figure.layout.xaxis,
+            range: xRange,
+          },
+          yaxis: {
+            ...figure.layout.yaxis,
+            range: [yMin - yPadding, yMax + yPadding],
+          },
+        };
+    
+        if (!hasAnimated) {
+          const animFrames: Plotly.Frame[] = []
+          const step = Math.ceil(x().length / 50) // aim for ~100 frames max
+          for (let i = 0; i < x().length; i += step) {
+            animFrames.push({
+              group: '1',
+              name: `frame${i}`,
+              data: getPlotData(x().slice(0, i + 1), y().slice(0, i + 1)),
+              traces: [0],
+              baseframe: '',
+              layout: {}
+            })
+          }
+          setFigure((prev => ({
+            ...prev,
+            data: getPlotData([], []), // Clear data for animation
+            layout: newLayout,
+            frames: animFrames,
+          })));
+        } else {
+          // No animation after first render
+          setFigure((prev) => ({
+            ...prev,
+            data: getPlotData(x(), y()),
+            layout: newLayout,
+          }))
+        }
+      }, [x, y, hasAnimated]);
+
+
+      const [isReady, setIsReady] = useState(false)
+      const plotRef = useRef<Plotly.PlotlyHTMLElement | null>(null)
+
+      useEffect(() => {
+        if (isReady && plotRef.current && figure.frames && figure.frames.length > 0) {
+
+          Plotly.animate(plotRef.current, null, {
+            frame: { duration: 10, redraw: true },
+            transition: { duration: 0 },
+          });
+          setHasAnimated(true)
+        }
+      }, [isReady, animationDuration, figure.frames])
+      
+
+  return (
+    <Box w='100%' h='100%'>
+       <Plot
+            data={figure.data}
+            layout={figure.layout}
+            frames={figure.frames || []}
+            config={figure.config}
+            useResizeHandler={true}
+            style={{ width: '100%', height: height }}
+            onError={(err) => console.error(err)}
+            onInitialized={(figure, graphDiv) => {
+              plotRef.current = graphDiv as Plotly.PlotlyHTMLElement
+              setIsReady(true)
+            }}
+          />
     </Box>
   )
 }

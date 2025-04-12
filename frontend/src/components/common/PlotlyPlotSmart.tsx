@@ -27,7 +27,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   title = 'Time Series Chart',
   xAxisLabel = 'Time',
   yAxisLabel = 'Value',
-  animationDuration = 300,
+  animationDuration = 400,
   hoverTemplate = '<b>X:</b> %{x}<br><b>Y:</b> %{y}<extra></extra>',
   lineColor,
   height = '600px',
