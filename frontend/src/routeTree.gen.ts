@@ -197,7 +197,7 @@ export interface FileRoutesByTo {
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  '__root__': typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/admin': typeof LayoutAdminRoute
