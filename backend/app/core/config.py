@@ -27,4 +27,4 @@ class Settings:
     ENVIRONMENT: Literal["local", "development", "production"] = "local"
 
 
-settings: Settings = Settings()  # type: ignore
+settings: Settings = Settings()

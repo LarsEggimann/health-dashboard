@@ -24,4 +24,3 @@ def get_monitoring_heart_rate(
     )
 
     return data
-

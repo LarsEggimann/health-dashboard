@@ -22,6 +22,13 @@ import type {
   PrivateCreateUserData,
   PrivateCreateUserResponse,
   PrivateCreateUserError,
+  ElectrometerTestConnectToElectrometer1Data,
+  ElectrometerTestGetDataElectrometer1Data,
+  ElectrometerTestGetDataElectrometer1Response,
+  ElectrometerTestGetDataElectrometer1Error,
+  ElectrometerTestTriggerMeasureElectrometer1Data,
+  ElectrometerTestStartContinuousMeasureElectrometer1Data,
+  ElectrometerTestStopContinuousMeasureElectrometer1Data,
 } from './types.gen'
 import { client as _heyApiClient } from './client.gen'
 
@@ -188,6 +195,110 @@ export class PrivateService {
         'Content-Type': 'application/json',
         ...options?.headers,
       },
+    })
+  }
+}
+
+export class ElectrometerService {
+  /**
+   * Test Connect To Electrometer 1
+   * Test connection to the first electrometer
+   */
+  public static electrometerTestConnectToElectrometer1<
+    ThrowOnError extends boolean = false,
+  >(
+    options?: Options<ElectrometerTestConnectToElectrometer1Data, ThrowOnError>,
+  ) {
+    return (options?.client ?? _heyApiClient).get<
+      unknown,
+      unknown,
+      ThrowOnError
+    >({
+      url: '/electrometer/test/electrometer-1/connect',
+      ...options,
+    })
+  }
+
+  /**
+   * Test Get Data Electrometer 1
+   * Test getting data from the first electrometer
+   */
+  public static electrometerTestGetDataElectrometer1<
+    ThrowOnError extends boolean = false,
+  >(options?: Options<ElectrometerTestGetDataElectrometer1Data, ThrowOnError>) {
+    return (options?.client ?? _heyApiClient).get<
+      ElectrometerTestGetDataElectrometer1Response,
+      ElectrometerTestGetDataElectrometer1Error,
+      ThrowOnError
+    >({
+      url: '/electrometer/test/electrometer-1/get-data',
+      ...options,
+    })
+  }
+
+  /**
+   * Test Trigger Measure Electrometer 1
+   * Test triggering a measurement on the first electrometer
+   */
+  public static electrometerTestTriggerMeasureElectrometer1<
+    ThrowOnError extends boolean = false,
+  >(
+    options?: Options<
+      ElectrometerTestTriggerMeasureElectrometer1Data,
+      ThrowOnError
+    >,
+  ) {
+    return (options?.client ?? _heyApiClient).get<
+      unknown,
+      unknown,
+      ThrowOnError
+    >({
+      url: '/electrometer/test/electrometer-1/trigger-measure',
+      ...options,
+    })
+  }
+
+  /**
+   * Test Start Continuous Measure Electrometer 1
+   * Test starting continuous measurement on the first electrometer
+   */
+  public static electrometerTestStartContinuousMeasureElectrometer1<
+    ThrowOnError extends boolean = false,
+  >(
+    options?: Options<
+      ElectrometerTestStartContinuousMeasureElectrometer1Data,
+      ThrowOnError
+    >,
+  ) {
+    return (options?.client ?? _heyApiClient).get<
+      unknown,
+      unknown,
+      ThrowOnError
+    >({
+      url: '/electrometer/test/electrometer-1/continuous-measure/start',
+      ...options,
+    })
+  }
+
+  /**
+   * Test Stop Continuous Measure Electrometer 1
+   * Test stopping continuous measurement on the first electrometer
+   */
+  public static electrometerTestStopContinuousMeasureElectrometer1<
+    ThrowOnError extends boolean = false,
+  >(
+    options?: Options<
+      ElectrometerTestStopContinuousMeasureElectrometer1Data,
+      ThrowOnError
+    >,
+  ) {
+    return (options?.client ?? _heyApiClient).get<
+      unknown,
+      unknown,
+      ThrowOnError
+    >({
+      url: '/electrometer/test/electrometer-1/continuous-measure/stop',
+      ...options,
     })
   }
 }

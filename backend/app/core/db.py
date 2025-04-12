@@ -2,6 +2,7 @@ from sqlmodel import Session, SQLModel, create_engine
 
 from app.core.config import settings
 from app.models.user import User
+from app.models.current_data import CurrentData
 
 
 connect_args = {"check_same_thread": False}
@@ -14,4 +15,4 @@ def get_session():
 
 
 def init_db() -> None:
-    SQLModel.metadata.create_all(engine, tables=[User.__table__])
+    SQLModel.metadata.create_all(engine, tables=[User.__table__, CurrentData.__table__])

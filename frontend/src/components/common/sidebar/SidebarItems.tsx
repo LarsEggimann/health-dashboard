@@ -23,17 +23,22 @@ const SidebarItems = () => {
   const currentUser = queryClient.getQueryData<UserPublic>(['currentUser'])
 
   const finalItems: Item[] = currentUser?.is_superuser
-    ? [...items, { icon: FiUsers, title: 'Admin', path: '/admin' }]
+    ? [
+        ...items,
+        { icon: FiUsers, title: 'Admin', path: '/admin' },
+        { icon: FiTag, title: 'Test Websockets', path: '/test-websockets' },
+      ]
     : items
 
   const listItems = finalItems.map(({ icon, title, path }) => (
     <RouterLink key={title} to={path}>
       <Flex
+        rounded='lg'
         gap={4}
         px={4}
         py={2}
         _hover={{
-          background: 'gray.subtle',
+          background: 'gray.emphasized',
         }}
         alignItems='center'
         fontSize='sm'

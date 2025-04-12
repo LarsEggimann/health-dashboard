@@ -1,9 +1,6 @@
 {
   "openapi": "3.1.0",
-  "info": {
-    "title": "Health Dashboard API",
-    "version": "0.1.0"
-  },
+  "info": { "title": "Health Dashboard API", "version": "0.1.0" },
   "paths": {
     "/api/v1/health-data-management/update": {
       "post": {
@@ -16,18 +13,12 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateProcessStatus"
-                }
+                "schema": { "$ref": "#/components/schemas/UpdateProcessStatus" }
               }
             }
           }
         },
-        "security": [
-          {
-            "OAuth2PasswordBearer": []
-          }
-        ]
+        "security": [{ "OAuth2PasswordBearer": [] }]
       }
     },
     "/api/v1/health-data-management/update/status": {
@@ -41,18 +32,12 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateProcessStatus"
-                }
+                "schema": { "$ref": "#/components/schemas/UpdateProcessStatus" }
               }
             }
           }
         },
-        "security": [
-          {
-            "OAuth2PasswordBearer": []
-          }
-        ]
+        "security": [{ "OAuth2PasswordBearer": [] }]
       }
     },
     "/api/v1/health-data/monitoring/heart-rate": {
@@ -61,11 +46,7 @@
         "summary": "Get Monitoring Heart Rate",
         "description": "Get monitoring heart rate based on optional time frame input.",
         "operationId": "health-data-get_monitoring_heart_rate",
-        "security": [
-          {
-            "OAuth2PasswordBearer": []
-          }
-        ],
+        "security": [{ "OAuth2PasswordBearer": [] }],
         "parameters": [
           {
             "name": "start",
@@ -73,13 +54,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "null"
-                }
+                { "type": "string", "format": "date-time" },
+                { "type": "null" }
               ],
               "title": "Start"
             }
@@ -90,13 +66,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "null"
-                }
+                { "type": "string", "format": "date-time" },
+                { "type": "null" }
               ],
               "title": "End"
             }
@@ -117,9 +88,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -147,9 +116,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Token"
-                }
+                "schema": { "$ref": "#/components/schemas/Token" }
               }
             }
           },
@@ -157,9 +124,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -177,18 +142,12 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserPublic"
-                }
+                "schema": { "$ref": "#/components/schemas/UserPublic" }
               }
             }
           }
         },
-        "security": [
-          {
-            "OAuth2PasswordBearer": []
-          }
-        ]
+        "security": [{ "OAuth2PasswordBearer": [] }]
       }
     },
     "/api/v1/private/users": {
@@ -200,9 +159,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PrivateUserCreate"
-              }
+              "schema": { "$ref": "#/components/schemas/PrivateUserCreate" }
             }
           },
           "required": true
@@ -212,9 +169,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserPublic"
-                }
+                "schema": { "$ref": "#/components/schemas/UserPublic" }
               }
             }
           },
@@ -222,11 +177,117 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
+          }
+        }
+      }
+    },
+    "/electrometer/test/electrometer-1/connect": {
+      "get": {
+        "tags": ["Electrometer"],
+        "summary": "Test Connect To Electrometer 1",
+        "description": "Test connection to the first electrometer",
+        "operationId": "Electrometer-test_connect_to_electrometer_1",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/electrometer/test/electrometer-1/get-data": {
+      "get": {
+        "tags": ["Electrometer"],
+        "summary": "Test Get Data Electrometer 1",
+        "description": "Test getting data from the first electrometer",
+        "operationId": "Electrometer-test_get_data_electrometer_1",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "date-time" },
+                { "type": "null" }
+              ],
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "date-time" },
+                { "type": "null" }
+              ],
+              "title": "End"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CurrentDataResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/electrometer/test/electrometer-1/trigger-measure": {
+      "get": {
+        "tags": ["Electrometer"],
+        "summary": "Test Trigger Measure Electrometer 1",
+        "description": "Test triggering a measurement on the first electrometer",
+        "operationId": "Electrometer-test_trigger_measure_electrometer_1",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/electrometer/test/electrometer-1/continuous-measure/start": {
+      "get": {
+        "tags": ["Electrometer"],
+        "summary": "Test Start Continuous Measure Electrometer 1",
+        "description": "Test starting continuous measurement on the first electrometer",
+        "operationId": "Electrometer-test_start_continuous_measure_electrometer_1",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/electrometer/test/electrometer-1/continuous-measure/stop": {
+      "get": {
+        "tags": ["Electrometer"],
+        "summary": "Test Stop Continuous Measure Electrometer 1",
+        "description": "Test stopping continuous measurement on the first electrometer",
+        "operationId": "Electrometer-test_stop_continuous_measure_electrometer_1",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -238,49 +299,20 @@
         "properties": {
           "grant_type": {
             "anyOf": [
-              {
-                "type": "string",
-                "pattern": "^password$"
-              },
-              {
-                "type": "null"
-              }
+              { "type": "string", "pattern": "^password$" },
+              { "type": "null" }
             ],
             "title": "Grant Type"
           },
-          "username": {
-            "type": "string",
-            "title": "Username"
-          },
-          "password": {
-            "type": "string",
-            "title": "Password"
-          },
-          "scope": {
-            "type": "string",
-            "title": "Scope",
-            "default": ""
-          },
+          "username": { "type": "string", "title": "Username" },
+          "password": { "type": "string", "title": "Password" },
+          "scope": { "type": "string", "title": "Scope", "default": "" },
           "client_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Client Id"
           },
           "client_secret": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Client Secret"
           }
         },
@@ -288,12 +320,27 @@
         "required": ["username", "password"],
         "title": "Body_auth-login_access_token"
       },
+      "CurrentDataResponse": {
+        "properties": {
+          "current": {
+            "items": { "type": "number" },
+            "type": "array",
+            "title": "Current"
+          },
+          "time": {
+            "items": { "type": "string", "format": "date-time" },
+            "type": "array",
+            "title": "Time"
+          }
+        },
+        "type": "object",
+        "required": ["current", "time"],
+        "title": "CurrentDataResponse"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
+            "items": { "$ref": "#/components/schemas/ValidationError" },
             "type": "array",
             "title": "Detail"
           }
@@ -304,17 +351,12 @@
       "MonitoringHeartRates": {
         "properties": {
           "heart_rate": {
-            "items": {
-              "type": "integer"
-            },
+            "items": { "type": "integer" },
             "type": "array",
             "title": "Heart Rate"
           },
           "timestamp": {
-            "items": {
-              "type": "string",
-              "format": "date-time"
-            },
+            "items": { "type": "string", "format": "date-time" },
             "type": "array",
             "title": "Timestamp"
           }
@@ -325,73 +367,36 @@
       },
       "PrivateUserCreate": {
         "properties": {
-          "username": {
-            "type": "string",
-            "title": "Username"
-          },
+          "username": { "type": "string", "title": "Username" },
           "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Email"
           },
           "first_name": {
             "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 255
-              },
-              {
-                "type": "null"
-              }
+              { "type": "string", "maxLength": 255 },
+              { "type": "null" }
             ],
             "title": "First Name"
           },
           "last_name": {
             "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 255
-              },
-              {
-                "type": "null"
-              }
+              { "type": "string", "maxLength": 255 },
+              { "type": "null" }
             ],
             "title": "Last Name"
           },
           "disabled": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
             "title": "Disabled",
             "default": false
           },
           "is_superuser": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
             "title": "Is Superuser",
             "default": false
           },
-          "password": {
-            "type": "string",
-            "title": "Password"
-          }
+          "password": { "type": "string", "title": "Password" }
         },
         "type": "object",
         "required": ["username", "password"],
@@ -400,10 +405,7 @@
       },
       "Token": {
         "properties": {
-          "access_token": {
-            "type": "string",
-            "title": "Access Token"
-          },
+          "access_token": { "type": "string", "title": "Access Token" },
           "token_type": {
             "type": "string",
             "title": "Token Type",
@@ -428,66 +430,32 @@
       },
       "UserPublic": {
         "properties": {
-          "username": {
-            "type": "string",
-            "title": "Username"
-          },
+          "username": { "type": "string", "title": "Username" },
           "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Email"
           },
           "first_name": {
             "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 255
-              },
-              {
-                "type": "null"
-              }
+              { "type": "string", "maxLength": 255 },
+              { "type": "null" }
             ],
             "title": "First Name"
           },
           "last_name": {
             "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 255
-              },
-              {
-                "type": "null"
-              }
+              { "type": "string", "maxLength": 255 },
+              { "type": "null" }
             ],
             "title": "Last Name"
           },
           "disabled": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
             "title": "Disabled",
             "default": false
           },
           "is_superuser": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
             "title": "Is Superuser",
             "default": false
           }
@@ -499,27 +467,12 @@
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            },
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
             "type": "array",
             "title": "Location"
           },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
-          }
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
         },
         "type": "object",
         "required": ["loc", "msg", "type"],
@@ -530,10 +483,7 @@
       "OAuth2PasswordBearer": {
         "type": "oauth2",
         "flows": {
-          "password": {
-            "scopes": {},
-            "tokenUrl": "/api/v1/login/access-token"
-          }
+          "password": { "scopes": {}, "tokenUrl": "/api/v1/login/access-token" }
         }
       }
     }

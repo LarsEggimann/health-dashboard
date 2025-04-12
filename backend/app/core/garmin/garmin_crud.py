@@ -19,7 +19,6 @@ def get_monitoring_heart_rate(
     # sort by timestamp ascending
     statement = statement.order_by(desc(MonitoringHeartRate.timestamp))
 
-
     session_hr = session.exec(statement).all()
 
     timestamps, heart_rates = zip(*session_hr) if session_hr else ([], [])

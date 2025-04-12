@@ -9,6 +9,11 @@ export type BodyAuthLoginAccessToken = {
   client_secret?: string | null
 }
 
+export type CurrentDataResponse = {
+  current: Array<number>
+  time: Array<string>
+}
+
 export type HttpValidationError = {
   detail?: Array<ValidationError>
 }
@@ -189,6 +194,92 @@ export type PrivateCreateUserResponses = {
 
 export type PrivateCreateUserResponse =
   PrivateCreateUserResponses[keyof PrivateCreateUserResponses]
+
+export type ElectrometerTestConnectToElectrometer1Data = {
+  body?: never
+  path?: never
+  query?: never
+  url: '/electrometer/test/electrometer-1/connect'
+}
+
+export type ElectrometerTestConnectToElectrometer1Responses = {
+  /**
+   * Successful Response
+   */
+  200: unknown
+}
+
+export type ElectrometerTestGetDataElectrometer1Data = {
+  body?: never
+  path?: never
+  query?: {
+    start?: string | null
+    end?: string | null
+  }
+  url: '/electrometer/test/electrometer-1/get-data'
+}
+
+export type ElectrometerTestGetDataElectrometer1Errors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError
+}
+
+export type ElectrometerTestGetDataElectrometer1Error =
+  ElectrometerTestGetDataElectrometer1Errors[keyof ElectrometerTestGetDataElectrometer1Errors]
+
+export type ElectrometerTestGetDataElectrometer1Responses = {
+  /**
+   * Successful Response
+   */
+  200: CurrentDataResponse
+}
+
+export type ElectrometerTestGetDataElectrometer1Response =
+  ElectrometerTestGetDataElectrometer1Responses[keyof ElectrometerTestGetDataElectrometer1Responses]
+
+export type ElectrometerTestTriggerMeasureElectrometer1Data = {
+  body?: never
+  path?: never
+  query?: never
+  url: '/electrometer/test/electrometer-1/trigger-measure'
+}
+
+export type ElectrometerTestTriggerMeasureElectrometer1Responses = {
+  /**
+   * Successful Response
+   */
+  200: unknown
+}
+
+export type ElectrometerTestStartContinuousMeasureElectrometer1Data = {
+  body?: never
+  path?: never
+  query?: never
+  url: '/electrometer/test/electrometer-1/continuous-measure/start'
+}
+
+export type ElectrometerTestStartContinuousMeasureElectrometer1Responses = {
+  /**
+   * Successful Response
+   */
+  200: unknown
+}
+
+export type ElectrometerTestStopContinuousMeasureElectrometer1Data = {
+  body?: never
+  path?: never
+  query?: never
+  url: '/electrometer/test/electrometer-1/continuous-measure/stop'
+}
+
+export type ElectrometerTestStopContinuousMeasureElectrometer1Responses = {
+  /**
+   * Successful Response
+   */
+  200: unknown
+}
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {})
