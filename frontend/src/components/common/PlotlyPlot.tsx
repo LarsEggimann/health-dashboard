@@ -3,10 +3,11 @@ import Plot from 'react-plotly.js'
 import { Box } from '@chakra-ui/react'
 import * as Plotly from 'plotly.js-dist-min'
 import { useColorModeValue } from '../../components/ui/color-mode'
+import { data } from 'react-router-dom'
 
 interface TimeSeriesChartProps {
-  xData: () => number[] | string[]
-  yData: () => number[]
+  xData: number[] | string[]
+  yData: number[]
   title?: string
   xAxisLabel?: string
   yAxisLabel?: string
@@ -28,7 +29,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   title = 'Time Series Chart',
   xAxisLabel = 'Time',
   yAxisLabel = 'Value',
-  animationDuration = 300,
+  animationDuration = 500,
   hoverTemplate = '<b>X:</b> %{x}<br><b>Y:</b> %{y}<extra></extra>',
   lineColor,
   height = '600px',
@@ -48,9 +49,9 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
 
   const finalLineColor = lineColor || defaultLineColor
 
-  const customData = x().map((i, j) => [
+  const customData = x.map((i, j) => [
     new Date(i).toLocaleTimeString(),
-    y()[j],
+    y[j],
   ])
 
   const getPlotData = (
@@ -66,7 +67,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         line: {
           color: finalLineColor,
           shape: 'spline',
-          smoothing: 0.8,
+          smoothing: 0.5,
         },
         hoverlabel: {
           bgcolor: tooltipBgColor,
@@ -84,7 +85,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   }
 
   const [figure, setFigure] = useState<PlotlyFigure>({
-    data: getPlotData(x(), y()),
+    data: getPlotData(x, y),
     layout: {
       title: {
         text: title,
@@ -125,10 +126,11 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         duration: animationDuration,
       },
     },
-    frames: [],
+    // frames: [],
     config: {
       responsive: true,
       displaylogo: false,
+      displayModeBar: true,
       toImageButtonOptions: {
         format: 'png',
         filename: 'chart_export',
@@ -136,83 +138,30 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
     },
   })
 
-  const [hasAnimated, setHasAnimated] = useState(false)
 
   useEffect(() => {
-    // const initialLength = x().length;
+    const xVals = x
+    const yVals = y
 
-    // Fixed axes
-    const xRange = [x()[0], x()[x().length - 1]]
-    const yMin = Math.min(...y())
-    const yMax = Math.max(...y())
-    const yPadding = (yMax - yMin) * 0.1
-
-    const newLayout: Partial<Plotly.Layout> = {
-      ...figure.layout,
-      xaxis: {
-        ...figure.layout.xaxis,
-        range: xRange,
-      },
-      yaxis: {
-        ...figure.layout.yaxis,
-        range: [yMin - yPadding, yMax + yPadding],
-      },
-    }
-
-    if (!hasAnimated) {
-      const animFrames: Plotly.Frame[] = []
-
-      const step = Math.ceil(x().length / 100) // step size for animation frames, should give 100 frames
-
-      const xReversed = [...x()].reverse() as string[] | number[]
-      const yReversed = [...y()].reverse()
-      for (let i = 0; i < x().length; i += step) {
-        animFrames.push({
-          group: '1',
-          name: `frame${i}`,
-          data: getPlotData(
-            xReversed.slice(0, i + 1),
-            yReversed.slice(0, i + 1),
-          ),
-          traces: [0],
-          baseframe: '',
-          layout: {},
-        })
+    if (xVals.length > 0) {
+      const newLayout: Partial<Plotly.Layout> = {
+        ...figure.layout,
+        xaxis: {
+          ...figure.layout.xaxis,
+          range: [xVals[0], xVals[xVals.length - 1]], // update range to fit data
+        }
       }
-      console.log('number of frames', animFrames.length)
-      setFigure((prev) => ({
-        ...prev,
-        data: getPlotData([], []), // Clear data for animation
-        layout: newLayout,
-        frames: animFrames,
-      }))
-    } else {
-      // No animation after first render
-      setFigure((prev) => ({
-        ...prev,
-        data: getPlotData(x(), y()),
+
+      setFigure((prevFigure) => ({
+        ...prevFigure,
+        data: getPlotData(xVals, yVals),
         layout: newLayout,
       }))
-    }
-  }, [x, y, hasAnimated])
 
-  const [isReady, setIsReady] = useState(false)
-  const plotRef = useRef<Plotly.PlotlyHTMLElement | null>(null)
-
-  useEffect(() => {
-    if (
-      isReady &&
-      plotRef.current &&
-      figure.frames &&
-      figure.frames.length > 0
-    ) {
-      Plotly.animate(plotRef.current, null, {
-        frame: { duration: 10, redraw: true },
-        transition: { duration: 0 },
-      })
-      setHasAnimated(true)
     }
-  }, [isReady, animationDuration, figure.frames])
+    }, [x, y])
+
+
 
   return (
     <Box w='100%' h='100%'>
@@ -223,11 +172,6 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         config={figure.config}
         useResizeHandler={true}
         style={{ width: '100%', height: height }}
-        onError={(err) => console.error(err)}
-        onInitialized={(figure, graphDiv) => {
-          plotRef.current = graphDiv as Plotly.PlotlyHTMLElement
-          setIsReady(true)
-        }}
       />
     </Box>
   )

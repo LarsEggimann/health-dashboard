@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { HealthDataService, MonitoringHeartRates } from '../../client'
 import { useQuery } from '@tanstack/react-query'
 import { Box } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import 'react-day-picker/style.css'
 import DateSelectorPopover from '../../components/common/DateSelectorPopover'
@@ -14,9 +14,12 @@ export const Route = createFileRoute('/_layout/dashboard')({
 
 function RouteComponent() {
   const [selected, setSelected] = useState<DateRange | undefined>({
-    from: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+    from: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
     to: new Date(),
   })
+
+  const dataRef = useRef<{ x: string[]; y: number[] }>({ x: [selected?.from?.toISOString() || ''], y: [80] })
+  
 
   const heartRateQuery = useQuery<MonitoringHeartRates>({
     queryKey: ['monitoringHeartRate', selected],
@@ -32,6 +35,15 @@ function RouteComponent() {
       if (!response.data) {
         throw new Error('Error fetching heart rate data')
       }
+
+      dataRef.current.x = response.data.timestamp
+      dataRef.current.y = response.data.heart_rate
+
+      if (response.data.timestamp.length === 0) {
+        dataRef.current.x = [selected?.from?.toISOString() || '']
+        dataRef.current.y = [80]
+      }
+
       return response.data
     },
   })
@@ -45,12 +57,13 @@ function RouteComponent() {
           buttonLabel='Select Date Range'
         />
       </Box>
-      {!heartRateQuery.isPending && (
         <TimeSeriesChart
-          xData={() => heartRateQuery.data?.timestamp || []}
-          yData={() => heartRateQuery.data?.heart_rate || []}
+          xData={dataRef.current.x}
+          yData={dataRef.current.y}
+          title='Heart Rate'
+          xAxisLabel='Time'
+          yAxisLabel='Heart Rate [bpm]'
         />
-      )}
     </Box>
   )
 }
