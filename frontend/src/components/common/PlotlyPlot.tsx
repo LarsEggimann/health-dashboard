@@ -49,10 +49,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
 
   const finalLineColor = lineColor || defaultLineColor
 
-  const customData = x.map((i, j) => [
-    new Date(i).toLocaleTimeString(),
-    y[j],
-  ])
+  const customData = x.map((i, j) => [new Date(i).toLocaleTimeString(), y[j]])
 
   const getPlotData = (
     xVals: number[] | string[],
@@ -130,14 +127,13 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
     config: {
       responsive: true,
       displaylogo: false,
-      displayModeBar: true,
+      displayModeBar: false,
       toImageButtonOptions: {
         format: 'png',
         filename: 'chart_export',
       },
     },
   })
-
 
   useEffect(() => {
     const xVals = x
@@ -149,7 +145,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         xaxis: {
           ...figure.layout.xaxis,
           range: [xVals[0], xVals[xVals.length - 1]], // update range to fit data
-        }
+        },
       }
 
       setFigure((prevFigure) => ({
@@ -157,11 +153,8 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         data: getPlotData(xVals, yVals),
         layout: newLayout,
       }))
-
     }
-    }, [x, y])
-
-
+  }, [x, y])
 
   return (
     <Box w='100%' h='100%'>

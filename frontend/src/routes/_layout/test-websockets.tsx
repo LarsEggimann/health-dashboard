@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { CurrentDataResponse, ElectrometerService } from '../../client'
 import { Button, Flex } from '@chakra-ui/react'
-import TimeSeriesChart from '../../components/common/PlotlyPlotSmart'
+import TimeSeriesChart from '../../components/common/PlotlyPlot'
 import { DateRange } from 'react-day-picker'
 
 export const Route = createFileRoute('/_layout/test-websockets')({
@@ -126,17 +126,15 @@ function RouteComponent() {
         </Button>
       </Flex>
 
-      {!em1Query.isPending && (
-        <TimeSeriesChart
-          xData={() => dataRef.current.x}
-          yData={() => dataRef.current.y}
-          height={500}
-          title='Electrometer 1'
-          xAxisLabel='Time'
-          yAxisLabel='Current [A]'
-          hoverTemplate='<b>Time:</b> %{customdata[0]}<br><b>Current:</b> %{customdata[1]} A<extra></extra>'
-        />
-      )}
+      <TimeSeriesChart
+        xData={dataRef.current.x}
+        yData={dataRef.current.y}
+        height={500}
+        title='Electrometer 1'
+        xAxisLabel='Time'
+        yAxisLabel='Current [A]'
+        hoverTemplate='<b>Time:</b> %{customdata[0]}<br><b>Current:</b> %{customdata[1]} A<extra></extra>'
+      />
       <div className='messages'>
         {messages.map((message, index) => (
           <p key={index}>{message}</p>
