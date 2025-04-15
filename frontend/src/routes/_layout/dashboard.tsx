@@ -2,8 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { HealthDataService, MonitoringHeartRates } from '../../client'
 import { useQuery } from '@tanstack/react-query'
 import { Box } from '@chakra-ui/react'
-import { useRef, useState } from 'react'
-import DateSelectorPopover from '../../components/common/datepicker/DateSelectorPopover'
+import { useState } from 'react'
+import DateSelectorPopover, {
+  DateRange,
+} from '../../components/common/datepicker/DateSelectorPopover'
 import TimeSeriesChart from '../../components/common/PlotlyPlot'
 import { subDays } from 'date-fns'
 
@@ -17,12 +19,12 @@ function RouteComponent() {
     to: new Date(),
   })
 
-  const dataRef = useRef<{ x: string[]; y: number[] }>({
-    x: [selected?.from?.toISOString() || ''],
-    y: [80],
+  const [plotData, setPlotData] = useState<{ x: string[]; y: number[] }>({
+    x: [],
+    y: [],
   })
 
-  const heartRateQuery = useQuery<MonitoringHeartRates>({
+  useQuery<MonitoringHeartRates>({
     queryKey: ['monitoringHeartRate', selected],
     queryFn: async () => {
       const response = await HealthDataService.healthDataGetMonitoringHeartRate(
@@ -36,10 +38,10 @@ function RouteComponent() {
       if (!response.data) {
         throw new Error('Error fetching heart rate data')
       }
-
-      dataRef.current.x = response.data.timestamp
-      dataRef.current.y = response.data.heart_rate
-
+      setPlotData({
+        x: response.data.timestamp,
+        y: response.data.heart_rate,
+      })
       return response.data
     },
   })
@@ -53,8 +55,8 @@ function RouteComponent() {
       />
 
       <TimeSeriesChart
-        xData={dataRef.current.x}
-        yData={dataRef.current.y}
+        xData={plotData.x}
+        yData={plotData.y}
         title='Heart Rate'
         xAxisLabel='Time'
         yAxisLabel='Heart Rate [bpm]'

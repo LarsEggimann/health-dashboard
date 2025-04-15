@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Plot from 'react-plotly.js'
 import { Box } from '@chakra-ui/react'
 import * as Plotly from 'plotly.js-dist-min'
 import { useColorModeValue } from '../../components/ui/color-mode'
-import { data } from 'react-router-dom'
 
 interface TimeSeriesChartProps {
   xData: number[] | string[]
@@ -11,6 +10,7 @@ interface TimeSeriesChartProps {
   title?: string
   xAxisLabel?: string
   yAxisLabel?: string
+  useTrnsitions?: boolean
   animationDuration?: number // duration in milliseconds
   lineColor?: string
   hoverTemplate?: string
@@ -29,7 +29,8 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   title = 'Time Series Chart',
   xAxisLabel = 'Time',
   yAxisLabel = 'Value',
-  animationDuration = 500,
+  useTrnsitions: useTransitions = true,
+  animationDuration = 1000,
   hoverTemplate = '<b>X:</b> %{x}<br><b>Y:</b> %{y}<extra></extra>',
   lineColor,
   height = '600px',
@@ -81,9 +82,8 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
     ]
   }
 
-  const [figure, setFigure] = useState<PlotlyFigure>({
-    data: getPlotData(x, y),
-    layout: {
+  const getLayout = (): Partial<Plotly.Layout> => {
+    return {
       title: {
         text: title,
         font: { color: textColor },
@@ -118,13 +118,17 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         gridcolor: gridColor,
       },
       margin: { l: 60, r: 30, t: 35, b: 60 },
-      transition: {
-        easing: 'cubic-in-out',
-        duration: animationDuration,
-      },
-    },
-    // frames: [],
-    config: {
+      transition: useTransitions
+        ? {
+            duration: animationDuration,
+            easing: 'cubic-in-out',
+          }
+        : undefined,
+    }
+  }
+
+  const getConfig = (): Partial<Plotly.Config> => {
+    return {
       responsive: true,
       displaylogo: false,
       displayModeBar: false,
@@ -132,19 +136,35 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         format: 'png',
         filename: 'chart_export',
       },
-    },
-  })
+    }
+  }
 
-  useEffect(() => {
+  const getFigure = (): PlotlyFigure => {
+    return {
+      data: getPlotData(x, y),
+      layout: getLayout(),
+      config: getConfig(),
+    }
+  }
+
+  const [figure, setFigure] = useState<PlotlyFigure>(getFigure())
+
+  useMemo(() => {
     const xVals = x
     const yVals = y
 
+    const currentLayout = getLayout()
+
     if (xVals.length > 0) {
       const newLayout: Partial<Plotly.Layout> = {
-        ...figure.layout,
+        ...currentLayout,
         xaxis: {
-          ...figure.layout.xaxis,
+          ...currentLayout.xaxis,
           range: [xVals[0], xVals[xVals.length - 1]], // update range to fit data
+        },
+        yaxis: {
+          ...currentLayout.yaxis,
+          range: [Math.min(...yVals), Math.max(...yVals)], // update range to fit data
         },
       }
 
@@ -154,7 +174,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         layout: newLayout,
       }))
     }
-  }, [x, y])
+  }, [x, y, textColor])
 
   return (
     <Box w='100%' h='100%'>

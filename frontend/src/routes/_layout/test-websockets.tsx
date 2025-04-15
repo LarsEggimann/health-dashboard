@@ -20,10 +20,7 @@ function RouteComponent() {
     to: new Date(),
   })
 
-  const [x, setX] = useState<string[]>([])
-  const [y, setY] = useState<number[]>([])
-
-  const em1Query = useQuery<CurrentDataResponse>({
+  useQuery<CurrentDataResponse>({
     queryKey: ['em1Data', selected],
     queryFn: async () => {
       const response =

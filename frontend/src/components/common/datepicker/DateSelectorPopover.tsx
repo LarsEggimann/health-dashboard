@@ -73,7 +73,7 @@ const DateSelectorPopover = (props: DateSelectorPopoverProps) => {
     <>
       <DateRangePicker
         ranges={preDefinedRanges}
-        showOneCalendar={true}
+        // showOneCalendar={true}
         format='dd.MM.yyyy HH:mm'
         onChange={(dates) => setDates(dates)}
         appearance='subtle'
