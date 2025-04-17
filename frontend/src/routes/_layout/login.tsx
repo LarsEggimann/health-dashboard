@@ -1,4 +1,4 @@
-import { Container, Input } from '@chakra-ui/react'
+import { Card, Center, Container, Flex, Heading, Input } from '@chakra-ui/react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
@@ -52,49 +52,66 @@ function Login() {
   }
 
   return (
-    <Container
-      as='form'
-      onSubmit={handleSubmit(onSubmit)}
-      h='100vh'
-      maxW='sm'
-      alignItems='stretch'
-      justifyContent='center'
-      gap={4}
-      centerContent
-      verticalAlign={'center'}
-    >
-      <Field
-        invalid={!!errors.username || !!auth.error}
-        errorText={errors.username?.message || auth.error}
-      >
-        <InputGroup w='100%' startElement={<FiUser />}>
-          <Input
-            id='username'
-            {...register('username', {
-              required: 'Username is required',
-            })}
-            placeholder='Username'
-            type='username'
-          />
-        </InputGroup>
-      </Field>
-      <PasswordInput
-        type='password'
-        startElement={<FiLock />}
-        {...register('password', {
-          required: 'Password is required',
-        })}
-        placeholder='Password'
-        errors={errors}
-      />
-      <Button
-        variant='surface'
-        type='submit'
-        loading={isSubmitting || auth.isLoading}
-        size='md'
-      >
-        Log In
-      </Button>
-    </Container>
+    <Center p='8' w='100%' h={'100%'}>
+
+      <Card.Root shadow='md' mb={0} w='m'>
+        <Card.Header>
+          <Flex justify='space-between' align='center'>
+            <Heading size='2xl'>
+              Login to your Dashboard
+            </Heading>
+          </Flex>
+        </Card.Header>
+
+        <Card.Body>
+
+          <Container
+            as='form'
+            onSubmit={handleSubmit(onSubmit)}
+            maxW='sm'
+            alignItems='stretch'
+            justifyContent='center'
+            gap={4}
+            centerContent
+            verticalAlign={'center'}
+          >
+            <Field
+              invalid={!!errors.username || !!auth.error}
+              errorText={errors.username?.message || auth.error}
+            >
+              <InputGroup w='100%' startElement={<FiUser />}>
+                <Input
+                  id='username'
+                  {...register('username', {
+                    required: 'Username is required',
+                  })}
+                  placeholder='Username'
+                  type='username'
+                />
+              </InputGroup>
+            </Field>
+            <PasswordInput
+              type='password'
+              startElement={<FiLock />}
+              {...register('password', {
+                required: 'Password is required',
+              })}
+              placeholder='Password'
+              errors={errors}
+            />
+            <Button
+              variant='surface'
+              type='submit'
+              loading={isSubmitting || auth.isLoading}
+              size='md'
+            >
+              Log In
+            </Button>
+          </Container>
+
+        </Card.Body>
+      </Card.Root>
+    </Center>
+
   )
 }

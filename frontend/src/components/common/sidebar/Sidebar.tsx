@@ -11,8 +11,9 @@ const Sidebar = () => {
       <Box
         rounded='lg'
         p={2}
-        m={2}
+        ml={2}
         mt={0}
+        mb={2}
         width='xs'
         bg='bg.muted'
         display={sidebarContext.isOpen ? 'block' : 'none'}

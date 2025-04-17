@@ -10,10 +10,16 @@ import {
   startOfYesterday,
   endOfYesterday,
 } from 'date-fns'
+import { RangeType } from 'rsuite/esm/DateRangePicker'
+import { useColorMode } from '../../ui/color-mode'
+import { useState } from 'react'
+import { Box, Input, ChakraProvider } from '@chakra-ui/react'
+import ReactDatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export type DateRange = {
-  from: Date | undefined
-  to: Date | undefined
+  from: Date | undefined | null
+  to: Date | undefined | null
 }
 
 type DateSelectorPopoverProps = {
@@ -23,7 +29,7 @@ type DateSelectorPopoverProps = {
 }
 
 const DateSelectorPopover = (props: DateSelectorPopoverProps) => {
-  const preDefinedRanges = [
+  const preDefinedRanges: RangeType[] = [
     {
       label: 'Last Hour',
       value: [subHours(new Date(), 1), new Date()],
@@ -67,10 +73,55 @@ const DateSelectorPopover = (props: DateSelectorPopoverProps) => {
     }
   }
 
+  const { colorMode } = useColorMode()
+  const [startDate, setStartDate] = useState<Date | null>(props.selected?.from)
+  const [endDate, setEndDate] = useState<Date | null>(props.selected?.to)
+
+  const handleChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+    props.setSelected({ from: start, to: end })
+  }
+
   return (
     // <CustomPopover buttonLabel={props.buttonLabel}>
     // <CustomPopover buttonLabel={props.buttonLabel}>
     <>
+      <Box
+        style={{
+          '.react-datepicker': {
+            backgroundColor: colorMode === 'dark' ? '#2D3748' : 'white',
+            color: colorMode === 'dark' ? 'white' : 'black',
+            border: '1px solid',
+            borderColor: colorMode === 'dark' ? 'gray.600' : 'gray.200',
+          },
+          '.react-datepicker__header': {
+            backgroundColor: colorMode === 'dark' ? '#1A202C' : 'gray.100',
+            borderBottom: '1px solid',
+            borderColor: colorMode === 'dark' ? 'gray.600' : 'gray.200',
+          },
+          '.react-datepicker__day--selected': {
+            backgroundColor: colorMode === 'dark' ? '#63B3ED' : '#3182CE',
+          },
+          '.react-datepicker__day:hover': {
+            backgroundColor: colorMode === 'dark' ? '#4A5568' : '#E2E8F0',
+          },
+        } as React.CSSProperties}
+      >
+        <ReactDatePicker
+          selected={startDate}
+          onChange={handleChange}
+          startDate={startDate}
+          endDate={endDate}
+          showTimeSelect
+          selectsRange
+          customInput={<Input />}
+          dateFormat='dd.MM.yyyy'
+          placeholderText='Select date range'
+        />
+      </Box>
+
       <DateRangePicker
         ranges={preDefinedRanges}
         // showOneCalendar={true}

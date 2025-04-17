@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutUserInfoImport } from './routes/_layout/user-info'
-import { Route as LayoutUserImport } from './routes/_layout/user'
 import { Route as LayoutTestWebsocketsImport } from './routes/_layout/test-websockets'
 import { Route as LayoutLoginImport } from './routes/_layout/login'
 import { Route as LayoutDashboardPrettyImport } from './routes/_layout/dashboard-pretty'
@@ -38,12 +37,6 @@ const LayoutIndexRoute = LayoutIndexImport.update({
 const LayoutUserInfoRoute = LayoutUserInfoImport.update({
   id: '/user-info',
   path: '/user-info',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutUserRoute = LayoutUserImport.update({
-  id: '/user',
-  path: '/user',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -136,13 +129,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutTestWebsocketsImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/user': {
-      id: '/_layout/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof LayoutUserImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/user-info': {
       id: '/_layout/user-info'
       path: '/user-info'
@@ -169,7 +155,6 @@ interface LayoutRouteChildren {
   LayoutDashboardPrettyRoute: typeof LayoutDashboardPrettyRoute
   LayoutLoginRoute: typeof LayoutLoginRoute
   LayoutTestWebsocketsRoute: typeof LayoutTestWebsocketsRoute
-  LayoutUserRoute: typeof LayoutUserRoute
   LayoutUserInfoRoute: typeof LayoutUserInfoRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
@@ -181,7 +166,6 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutDashboardPrettyRoute: LayoutDashboardPrettyRoute,
   LayoutLoginRoute: LayoutLoginRoute,
   LayoutTestWebsocketsRoute: LayoutTestWebsocketsRoute,
-  LayoutUserRoute: LayoutUserRoute,
   LayoutUserInfoRoute: LayoutUserInfoRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
@@ -197,7 +181,6 @@ export interface FileRoutesByFullPath {
   '/dashboard-pretty': typeof LayoutDashboardPrettyRoute
   '/login': typeof LayoutLoginRoute
   '/test-websockets': typeof LayoutTestWebsocketsRoute
-  '/user': typeof LayoutUserRoute
   '/user-info': typeof LayoutUserInfoRoute
   '/': typeof LayoutIndexRoute
 }
@@ -209,13 +192,12 @@ export interface FileRoutesByTo {
   '/dashboard-pretty': typeof LayoutDashboardPrettyRoute
   '/login': typeof LayoutLoginRoute
   '/test-websockets': typeof LayoutTestWebsocketsRoute
-  '/user': typeof LayoutUserRoute
   '/user-info': typeof LayoutUserInfoRoute
   '/': typeof LayoutIndexRoute
 }
 
 export interface FileRoutesById {
-  '__root__': typeof rootRoute
+  __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/admin': typeof LayoutAdminRoute
@@ -223,7 +205,6 @@ export interface FileRoutesById {
   '/_layout/dashboard-pretty': typeof LayoutDashboardPrettyRoute
   '/_layout/login': typeof LayoutLoginRoute
   '/_layout/test-websockets': typeof LayoutTestWebsocketsRoute
-  '/_layout/user': typeof LayoutUserRoute
   '/_layout/user-info': typeof LayoutUserInfoRoute
   '/_layout/': typeof LayoutIndexRoute
 }
@@ -238,7 +219,6 @@ export interface FileRouteTypes {
     | '/dashboard-pretty'
     | '/login'
     | '/test-websockets'
-    | '/user'
     | '/user-info'
     | '/'
   fileRoutesByTo: FileRoutesByTo
@@ -249,7 +229,6 @@ export interface FileRouteTypes {
     | '/dashboard-pretty'
     | '/login'
     | '/test-websockets'
-    | '/user'
     | '/user-info'
     | '/'
   id:
@@ -261,7 +240,6 @@ export interface FileRouteTypes {
     | '/_layout/dashboard-pretty'
     | '/_layout/login'
     | '/_layout/test-websockets'
-    | '/_layout/user'
     | '/_layout/user-info'
     | '/_layout/'
   fileRoutesById: FileRoutesById
@@ -297,7 +275,6 @@ export const routeTree = rootRoute
         "/_layout/dashboard-pretty",
         "/_layout/login",
         "/_layout/test-websockets",
-        "/_layout/user",
         "/_layout/user-info",
         "/_layout/"
       ]
@@ -324,10 +301,6 @@ export const routeTree = rootRoute
     },
     "/_layout/test-websockets": {
       "filePath": "_layout/test-websockets.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/user": {
-      "filePath": "_layout/user.tsx",
       "parent": "/_layout"
     },
     "/_layout/user-info": {
