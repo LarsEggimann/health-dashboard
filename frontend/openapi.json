@@ -79,8 +79,61 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MonitoringHeartRates"
+                  "$ref": "#/components/schemas/MonitoringHeartRateResponse"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health-data/monitoring": {
+      "get": {
+        "tags": ["health-data"],
+        "summary": "Get Monitoring Data",
+        "description": "Get monitoring data based on optional time frame input.",
+        "operationId": "health-data-get_monitoring_data",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "date-time" },
+                { "type": "null" }
+              ],
+              "title": "Start"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "date-time" },
+                { "type": "null" }
+              ],
+              "title": "End"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MonitoringResponse" }
               }
             }
           },
@@ -348,7 +401,47 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
-      "MonitoringHeartRates": {
+      "Monitoring": {
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "activity_type": { "type": "string", "title": "Activity Type" },
+          "intensity": { "type": "integer", "title": "Intensity" },
+          "duration": {
+            "type": "string",
+            "format": "time",
+            "title": "Duration"
+          },
+          "distance": { "type": "number", "title": "Distance" },
+          "cum_active_time": {
+            "type": "string",
+            "format": "time",
+            "title": "Cum Active Time"
+          },
+          "active_calories": { "type": "integer", "title": "Active Calories" },
+          "steps": { "type": "integer", "title": "Steps" },
+          "strokes": { "type": "integer", "title": "Strokes" },
+          "cycles": { "type": "number", "title": "Cycles" }
+        },
+        "type": "object",
+        "required": [
+          "timestamp",
+          "activity_type",
+          "intensity",
+          "duration",
+          "distance",
+          "cum_active_time",
+          "active_calories",
+          "steps",
+          "strokes",
+          "cycles"
+        ],
+        "title": "Monitoring"
+      },
+      "MonitoringHeartRateResponse": {
         "properties": {
           "heart_rate": {
             "items": { "type": "integer" },
@@ -363,7 +456,19 @@
         },
         "type": "object",
         "required": ["heart_rate", "timestamp"],
-        "title": "MonitoringHeartRates"
+        "title": "MonitoringHeartRateResponse"
+      },
+      "MonitoringResponse": {
+        "properties": {
+          "data": {
+            "items": { "$ref": "#/components/schemas/Monitoring" },
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": ["data"],
+        "title": "MonitoringResponse"
       },
       "PrivateUserCreate": {
         "properties": {

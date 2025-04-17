@@ -7,16 +7,17 @@ from sqlmodel import select, asc
 
 from app.core.config import settings
 from app.core.db import init_db
-from app.routers import auth, private, health_data, health_data_management
+from app.routers import auth, private, health_data_management
 from app.routers import user
 
 from app.core.electrometer.electrometer_service import KeysightEM
 from app.deps import SessionDep, TimeFrameInputDep
 from app.models.current_data import CurrentData, CurrentDataResponse
+from app.routers import monitoring
 
 api_router = APIRouter()
 api_router.include_router(health_data_management.router)
-api_router.include_router(health_data.router)
+api_router.include_router(monitoring.router)
 api_router.include_router(auth.router)
 api_router.include_router(user.router)
 

@@ -1,7 +1,7 @@
 import os
 import multiprocessing
 
-from app.models.garmin import UpdateProcessStatus
+from app.models.garmin_monitoring import UpdateProcessStatus
 
 
 def _update_local_db_command():

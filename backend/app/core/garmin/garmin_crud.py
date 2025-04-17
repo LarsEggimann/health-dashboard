@@ -1,11 +1,16 @@
 from sqlmodel import Session, select, asc
-from app.models.garmin import MonitoringHeartRate, MonitoringHeartRates
+from app.models.garmin_monitoring import (
+    MonitoringHeartRateResponse,
+    Monitoring,
+    MonitoringResponse,
+    MonitoringHeartRate,
+)
 from app.models.common import TimeFrameInput
 
 
 def get_monitoring_heart_rate(
     *, session: Session, time_frame: TimeFrameInput
-) -> MonitoringHeartRates | None:
+) -> MonitoringHeartRateResponse | None:
     """
     Get monitoring heart rate
     """
@@ -23,7 +28,30 @@ def get_monitoring_heart_rate(
 
     timestamps, heart_rates = zip(*session_hr) if session_hr else ([], [])
 
-    return MonitoringHeartRates(
+    return MonitoringHeartRateResponse(
         heart_rate=list(heart_rates),
         timestamp=list(timestamps),
+    )
+
+
+def get_monitoring_data(
+    *, session: Session, time_frame: TimeFrameInput
+) -> MonitoringResponse:
+    """
+    Get monitoring data
+    """
+    statement = select(Monitoring)
+
+    if time_frame.start:
+        statement = statement.where(Monitoring.timestamp >= time_frame.start)
+    if time_frame.end:
+        statement = statement.where(Monitoring.timestamp <= time_frame.end)
+
+    # sort by timestamp ascending
+    statement = statement.order_by(asc(Monitoring.timestamp))
+
+    session_hr = session.exec(statement).all()
+
+    return MonitoringResponse(
+        data=list(session_hr),
     )

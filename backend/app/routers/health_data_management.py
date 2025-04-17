@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 
 from app.deps import reusable_oauth2
 from app.core.garmin import garmin_service
-from app.models.garmin import UpdateProcessStatus
+from app.models.garmin_monitoring import UpdateProcessStatus
 
 router = APIRouter(
     dependencies=[Depends(reusable_oauth2)],

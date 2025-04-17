@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Plot from 'react-plotly.js'
 import { Box } from '@chakra-ui/react'
 import * as Plotly from 'plotly.js-dist-min'

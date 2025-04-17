@@ -1,8 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { HealthDataService, MonitoringHeartRates } from '../../client'
+import {
+  HealthDataService,
+  MonitoringHeartRateResponse,
+  MonitoringResponse,
+} from '../../client'
 import { useQuery } from '@tanstack/react-query'
 import { Box } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import DateSelectorPopover, {
   DateRange,
 } from '../../components/common/datepicker/DateSelectorPopover'
@@ -24,7 +28,7 @@ function RouteComponent() {
     y: [],
   })
 
-  useQuery<MonitoringHeartRates>({
+  useQuery<MonitoringHeartRateResponse>({
     queryKey: ['monitoringHeartRate', selected],
     queryFn: async () => {
       const response = await HealthDataService.healthDataGetMonitoringHeartRate(
@@ -46,6 +50,50 @@ function RouteComponent() {
     },
   })
 
+  const [monitoringData, setMonitoringData] =
+    useState<MonitoringResponse | null>(null)
+
+  useQuery<MonitoringResponse>({
+    queryKey: ['monitoring', selected],
+    queryFn: async () => {
+      const response = await HealthDataService.healthDataGetMonitoringData({
+        query: {
+          start: selected?.from?.toISOString(),
+          end: selected?.to?.toISOString(),
+        },
+      })
+      if (!response.data) {
+        throw new Error('Error fetching heart rate data')
+      }
+      setMonitoringData(response.data)
+      return response.data
+    },
+  })
+
+  const [intesityData, setIntesityData] = useState<{
+    x: string[]
+    y: number[]
+  }>({
+    x: [],
+    y: [],
+  })
+
+  useMemo(() => {
+    console.log('monitoringData', monitoringData?.data)
+    if (monitoringData?.data) {
+      const x: string[] = []
+      const y: number[] = []
+      for (const m of monitoringData.data) {
+        x.push(m.timestamp)
+        y.push(m.intensity)
+      }
+      setIntesityData({
+        x: x,
+        y: y,
+      })
+    }
+  }, [monitoringData])
+
   return (
     <Box w='100%' h='100%'>
       <DateSelectorPopover
@@ -54,13 +102,24 @@ function RouteComponent() {
         buttonLabel='Select Date Range'
       />
 
-      <TimeSeriesChart
-        xData={plotData.x}
-        yData={plotData.y}
-        title='Heart Rate'
-        xAxisLabel='Time'
-        yAxisLabel='Heart Rate [bpm]'
-      />
+      <Box h='50%'>
+        <TimeSeriesChart
+          xData={plotData.x}
+          yData={plotData.y}
+          title='Heart Rate'
+          xAxisLabel='Time'
+          yAxisLabel='Heart Rate [bpm]'
+        />
+      </Box>
+      <Box h='50%'>
+        <TimeSeriesChart
+          xData={intesityData.x}
+          yData={intesityData.y}
+          title='Intensity'
+          xAxisLabel='Time'
+          yAxisLabel='Intensity [AU]'
+        />
+      </Box>
     </Box>
   )
 }

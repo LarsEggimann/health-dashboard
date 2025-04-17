@@ -18,9 +18,26 @@ export type HttpValidationError = {
   detail?: Array<ValidationError>
 }
 
-export type MonitoringHeartRates = {
+export type Monitoring = {
+  timestamp: string
+  activity_type: string
+  intensity: number
+  duration: string
+  distance: number
+  cum_active_time: string
+  active_calories: number
+  steps: number
+  strokes: number
+  cycles: number
+}
+
+export type MonitoringHeartRateResponse = {
   heart_rate: Array<number>
   timestamp: Array<string>
+}
+
+export type MonitoringResponse = {
+  data: Array<Monitoring>
 }
 
 /**
@@ -118,11 +135,41 @@ export type HealthDataGetMonitoringHeartRateResponses = {
   /**
    * Successful Response
    */
-  200: MonitoringHeartRates
+  200: MonitoringHeartRateResponse
 }
 
 export type HealthDataGetMonitoringHeartRateResponse =
   HealthDataGetMonitoringHeartRateResponses[keyof HealthDataGetMonitoringHeartRateResponses]
+
+export type HealthDataGetMonitoringDataData = {
+  body?: never
+  path?: never
+  query?: {
+    start?: string | null
+    end?: string | null
+  }
+  url: '/api/v1/health-data/monitoring'
+}
+
+export type HealthDataGetMonitoringDataErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError
+}
+
+export type HealthDataGetMonitoringDataError =
+  HealthDataGetMonitoringDataErrors[keyof HealthDataGetMonitoringDataErrors]
+
+export type HealthDataGetMonitoringDataResponses = {
+  /**
+   * Successful Response
+   */
+  200: MonitoringResponse
+}
+
+export type HealthDataGetMonitoringDataResponse =
+  HealthDataGetMonitoringDataResponses[keyof HealthDataGetMonitoringDataResponses]
 
 export type AuthLoginAccessTokenData = {
   body: BodyAuthLoginAccessToken

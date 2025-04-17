@@ -14,6 +14,9 @@ import type {
   HealthDataGetMonitoringHeartRateData,
   HealthDataGetMonitoringHeartRateResponse,
   HealthDataGetMonitoringHeartRateError,
+  HealthDataGetMonitoringDataData,
+  HealthDataGetMonitoringDataResponse,
+  HealthDataGetMonitoringDataError,
   AuthLoginAccessTokenData,
   AuthLoginAccessTokenResponse,
   AuthLoginAccessTokenError,
@@ -122,6 +125,29 @@ export class HealthDataService {
         },
       ],
       url: '/api/v1/health-data/monitoring/heart-rate',
+      ...options,
+    })
+  }
+
+  /**
+   * Get Monitoring Data
+   * Get monitoring data based on optional time frame input.
+   */
+  public static healthDataGetMonitoringData<
+    ThrowOnError extends boolean = false,
+  >(options?: Options<HealthDataGetMonitoringDataData, ThrowOnError>) {
+    return (options?.client ?? _heyApiClient).get<
+      HealthDataGetMonitoringDataResponse,
+      HealthDataGetMonitoringDataError,
+      ThrowOnError
+    >({
+      security: [
+        {
+          scheme: 'bearer',
+          type: 'http',
+        },
+      ],
+      url: '/api/v1/health-data/monitoring',
       ...options,
     })
   }
