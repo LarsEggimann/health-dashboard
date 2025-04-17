@@ -15,9 +15,9 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutUserInfoImport } from './routes/_layout/user-info'
 import { Route as LayoutTestWebsocketsImport } from './routes/_layout/test-websockets'
+import { Route as LayoutMonitoringImport } from './routes/_layout/monitoring'
 import { Route as LayoutLoginImport } from './routes/_layout/login'
-import { Route as LayoutDashboardPrettyImport } from './routes/_layout/dashboard-pretty'
-import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
+import { Route as LayoutDataManagementImport } from './routes/_layout/data-management'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAboutImport } from './routes/_layout/about'
 
@@ -46,21 +46,21 @@ const LayoutTestWebsocketsRoute = LayoutTestWebsocketsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutMonitoringRoute = LayoutMonitoringImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutLoginRoute = LayoutLoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutDashboardPrettyRoute = LayoutDashboardPrettyImport.update({
-  id: '/dashboard-pretty',
-  path: '/dashboard-pretty',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutDashboardRoute = LayoutDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const LayoutDataManagementRoute = LayoutDataManagementImport.update({
+  id: '/data-management',
+  path: '/data-management',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -101,18 +101,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAdminImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/dashboard': {
-      id: '/_layout/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof LayoutDashboardImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/dashboard-pretty': {
-      id: '/_layout/dashboard-pretty'
-      path: '/dashboard-pretty'
-      fullPath: '/dashboard-pretty'
-      preLoaderRoute: typeof LayoutDashboardPrettyImport
+    '/_layout/data-management': {
+      id: '/_layout/data-management'
+      path: '/data-management'
+      fullPath: '/data-management'
+      preLoaderRoute: typeof LayoutDataManagementImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/login': {
@@ -120,6 +113,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LayoutLoginImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/monitoring': {
+      id: '/_layout/monitoring'
+      path: '/monitoring'
+      fullPath: '/monitoring'
+      preLoaderRoute: typeof LayoutMonitoringImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/test-websockets': {
@@ -151,9 +151,9 @@ declare module '@tanstack/react-router' {
 interface LayoutRouteChildren {
   LayoutAboutRoute: typeof LayoutAboutRoute
   LayoutAdminRoute: typeof LayoutAdminRoute
-  LayoutDashboardRoute: typeof LayoutDashboardRoute
-  LayoutDashboardPrettyRoute: typeof LayoutDashboardPrettyRoute
+  LayoutDataManagementRoute: typeof LayoutDataManagementRoute
   LayoutLoginRoute: typeof LayoutLoginRoute
+  LayoutMonitoringRoute: typeof LayoutMonitoringRoute
   LayoutTestWebsocketsRoute: typeof LayoutTestWebsocketsRoute
   LayoutUserInfoRoute: typeof LayoutUserInfoRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
@@ -162,9 +162,9 @@ interface LayoutRouteChildren {
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutRoute: LayoutAboutRoute,
   LayoutAdminRoute: LayoutAdminRoute,
-  LayoutDashboardRoute: LayoutDashboardRoute,
-  LayoutDashboardPrettyRoute: LayoutDashboardPrettyRoute,
+  LayoutDataManagementRoute: LayoutDataManagementRoute,
   LayoutLoginRoute: LayoutLoginRoute,
+  LayoutMonitoringRoute: LayoutMonitoringRoute,
   LayoutTestWebsocketsRoute: LayoutTestWebsocketsRoute,
   LayoutUserInfoRoute: LayoutUserInfoRoute,
   LayoutIndexRoute: LayoutIndexRoute,
@@ -177,9 +177,9 @@ export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/about': typeof LayoutAboutRoute
   '/admin': typeof LayoutAdminRoute
-  '/dashboard': typeof LayoutDashboardRoute
-  '/dashboard-pretty': typeof LayoutDashboardPrettyRoute
+  '/data-management': typeof LayoutDataManagementRoute
   '/login': typeof LayoutLoginRoute
+  '/monitoring': typeof LayoutMonitoringRoute
   '/test-websockets': typeof LayoutTestWebsocketsRoute
   '/user-info': typeof LayoutUserInfoRoute
   '/': typeof LayoutIndexRoute
@@ -188,22 +188,22 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/about': typeof LayoutAboutRoute
   '/admin': typeof LayoutAdminRoute
-  '/dashboard': typeof LayoutDashboardRoute
-  '/dashboard-pretty': typeof LayoutDashboardPrettyRoute
+  '/data-management': typeof LayoutDataManagementRoute
   '/login': typeof LayoutLoginRoute
+  '/monitoring': typeof LayoutMonitoringRoute
   '/test-websockets': typeof LayoutTestWebsocketsRoute
   '/user-info': typeof LayoutUserInfoRoute
   '/': typeof LayoutIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  '__root__': typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/about': typeof LayoutAboutRoute
   '/_layout/admin': typeof LayoutAdminRoute
-  '/_layout/dashboard': typeof LayoutDashboardRoute
-  '/_layout/dashboard-pretty': typeof LayoutDashboardPrettyRoute
+  '/_layout/data-management': typeof LayoutDataManagementRoute
   '/_layout/login': typeof LayoutLoginRoute
+  '/_layout/monitoring': typeof LayoutMonitoringRoute
   '/_layout/test-websockets': typeof LayoutTestWebsocketsRoute
   '/_layout/user-info': typeof LayoutUserInfoRoute
   '/_layout/': typeof LayoutIndexRoute
@@ -215,9 +215,9 @@ export interface FileRouteTypes {
     | ''
     | '/about'
     | '/admin'
-    | '/dashboard'
-    | '/dashboard-pretty'
+    | '/data-management'
     | '/login'
+    | '/monitoring'
     | '/test-websockets'
     | '/user-info'
     | '/'
@@ -225,9 +225,9 @@ export interface FileRouteTypes {
   to:
     | '/about'
     | '/admin'
-    | '/dashboard'
-    | '/dashboard-pretty'
+    | '/data-management'
     | '/login'
+    | '/monitoring'
     | '/test-websockets'
     | '/user-info'
     | '/'
@@ -236,9 +236,9 @@ export interface FileRouteTypes {
     | '/_layout'
     | '/_layout/about'
     | '/_layout/admin'
-    | '/_layout/dashboard'
-    | '/_layout/dashboard-pretty'
+    | '/_layout/data-management'
     | '/_layout/login'
+    | '/_layout/monitoring'
     | '/_layout/test-websockets'
     | '/_layout/user-info'
     | '/_layout/'
@@ -271,9 +271,9 @@ export const routeTree = rootRoute
       "children": [
         "/_layout/about",
         "/_layout/admin",
-        "/_layout/dashboard",
-        "/_layout/dashboard-pretty",
+        "/_layout/data-management",
         "/_layout/login",
+        "/_layout/monitoring",
         "/_layout/test-websockets",
         "/_layout/user-info",
         "/_layout/"
@@ -287,16 +287,16 @@ export const routeTree = rootRoute
       "filePath": "_layout/admin.tsx",
       "parent": "/_layout"
     },
-    "/_layout/dashboard": {
-      "filePath": "_layout/dashboard.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/dashboard-pretty": {
-      "filePath": "_layout/dashboard-pretty.tsx",
+    "/_layout/data-management": {
+      "filePath": "_layout/data-management.tsx",
       "parent": "/_layout"
     },
     "/_layout/login": {
       "filePath": "_layout/login.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/monitoring": {
+      "filePath": "_layout/monitoring.tsx",
       "parent": "/_layout"
     },
     "/_layout/test-websockets": {

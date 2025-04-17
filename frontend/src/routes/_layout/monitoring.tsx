@@ -9,7 +9,7 @@ import DateSelectorPopover, {
 import TimeSeriesChart from '../../components/common/PlotlyPlot'
 import { subDays } from 'date-fns'
 
-export const Route = createFileRoute('/_layout/dashboard')({
+export const Route = createFileRoute('/_layout/monitoring')({
   component: RouteComponent,
 })
 

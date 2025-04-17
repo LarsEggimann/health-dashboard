@@ -1,16 +1,17 @@
 import { Box, Flex, Icon, Text } from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
 import { Link as RouterLink } from '@tanstack/react-router'
-import { FiHome, FiInfo, FiTag, FiUser, FiUsers } from 'react-icons/fi'
+import { FiDatabase, FiInfo, FiTag, FiUser, FiUsers } from 'react-icons/fi'
 import type { IconType } from 'react-icons/lib'
 
 import type { UserPublic } from '../../../client'
+import { BsClipboardData } from 'react-icons/bs'
 
 const items = [
-  { icon: FiHome, title: 'Dashboard', path: '/dashboard' },
-  { icon: FiInfo, title: 'About', path: '/about' },
-  { icon: FiTag, title: 'Testing', path: '/user' },
+  { icon: BsClipboardData, title: 'Monitoring Data', path: '/monitoring' },
+  { icon: FiDatabase, title: 'Data Management', path: '/data-management' },
   { icon: FiUser, title: 'User Info', path: '/user-info' },
+  { icon: FiInfo, title: 'About', path: '/about' },
 ]
 interface Item {
   icon: IconType

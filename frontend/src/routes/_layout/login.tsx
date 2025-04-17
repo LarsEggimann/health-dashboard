@@ -53,18 +53,14 @@ function Login() {
 
   return (
     <Center p='8' w='100%' h={'100%'}>
-
       <Card.Root shadow='md' mb={0} w='m'>
         <Card.Header>
           <Flex justify='space-between' align='center'>
-            <Heading size='2xl'>
-              Login to your Dashboard
-            </Heading>
+            <Heading size='2xl'>Login to your Dashboard</Heading>
           </Flex>
         </Card.Header>
 
         <Card.Body>
-
           <Container
             as='form'
             onSubmit={handleSubmit(onSubmit)}
@@ -108,10 +104,8 @@ function Login() {
               Log In
             </Button>
           </Container>
-
         </Card.Body>
       </Card.Root>
     </Center>
-
   )
 }

@@ -13,7 +13,7 @@ import {
 import { RangeType } from 'rsuite/esm/DateRangePicker'
 import { useColorMode } from '../../ui/color-mode'
 import { useState } from 'react'
-import { Box, Input, ChakraProvider } from '@chakra-ui/react'
+import { Box, Input } from '@chakra-ui/react'
 import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -89,25 +89,27 @@ const DateSelectorPopover = (props: DateSelectorPopoverProps) => {
     // <CustomPopover buttonLabel={props.buttonLabel}>
     <>
       <Box
-        style={{
-          '.react-datepicker': {
-            backgroundColor: colorMode === 'dark' ? '#2D3748' : 'white',
-            color: colorMode === 'dark' ? 'white' : 'black',
-            border: '1px solid',
-            borderColor: colorMode === 'dark' ? 'gray.600' : 'gray.200',
-          },
-          '.react-datepicker__header': {
-            backgroundColor: colorMode === 'dark' ? '#1A202C' : 'gray.100',
-            borderBottom: '1px solid',
-            borderColor: colorMode === 'dark' ? 'gray.600' : 'gray.200',
-          },
-          '.react-datepicker__day--selected': {
-            backgroundColor: colorMode === 'dark' ? '#63B3ED' : '#3182CE',
-          },
-          '.react-datepicker__day:hover': {
-            backgroundColor: colorMode === 'dark' ? '#4A5568' : '#E2E8F0',
-          },
-        } as React.CSSProperties}
+        style={
+          {
+            '.react-datepicker': {
+              backgroundColor: colorMode === 'dark' ? '#2D3748' : 'white',
+              color: colorMode === 'dark' ? 'white' : 'black',
+              border: '1px solid',
+              borderColor: colorMode === 'dark' ? 'gray.600' : 'gray.200',
+            },
+            '.react-datepicker__header': {
+              backgroundColor: colorMode === 'dark' ? '#1A202C' : 'gray.100',
+              borderBottom: '1px solid',
+              borderColor: colorMode === 'dark' ? 'gray.600' : 'gray.200',
+            },
+            '.react-datepicker__day--selected': {
+              backgroundColor: colorMode === 'dark' ? '#63B3ED' : '#3182CE',
+            },
+            '.react-datepicker__day:hover': {
+              backgroundColor: colorMode === 'dark' ? '#4A5568' : '#E2E8F0',
+            },
+          } as React.CSSProperties
+        }
       >
         <ReactDatePicker
           selected={startDate}

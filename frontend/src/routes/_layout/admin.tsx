@@ -1,47 +1,28 @@
-import { Box, Button, Flex } from '@chakra-ui/react'
+import { Box, Card, Flex, Heading, VStack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
-import { HealthDataManagementService } from '../../client'
-import { useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/_layout/admin')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const updateStatusQuerry = useQuery({
-    queryKey: ['updateHealthDataStatus'],
-    queryFn: async () => {
-      const response =
-        await HealthDataManagementService.healthDataManagementGetStatusOnUpdateHealthData()
-      if (!response.data) {
-        throw new Error('Error fetching health data management status')
-      }
-      return response.data
-    },
-  })
-
   return (
-    <Flex gap={4}>
-      <Button
-        variant='surface'
-        onClick={async () => {
-          HealthDataManagementService.healthDataManagementUpdateHealthData(
-            {},
-          ).then((res) => {
-            console.log(res)
-          })
-        }}
-      >
-        Update Health Data
-      </Button>
+    <Card.Root shadow='md' mb={0}>
+      <Card.Header>
+        <Flex justify='space-between' align='center'>
+          <Heading size='2xl'>Admin</Heading>
+        </Flex>
+      </Card.Header>
 
-      <Button variant='surface' onClick={() => updateStatusQuerry.refetch()}>
-        Refresh Status
-      </Button>
-
-      <Box>
-        <div>Status: {JSON.stringify(updateStatusQuerry.data)}</div>
-      </Box>
-    </Flex>
+      <Card.Body>
+        <VStack align='stretch' divideY='2px'>
+          <Box>
+            <div>
+              <p>no admin stuff yet</p>
+            </div>
+          </Box>
+        </VStack>
+      </Card.Body>
+    </Card.Root>
   )
 }
